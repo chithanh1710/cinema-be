@@ -1,0 +1,1276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="QuanLy_RapChieuPhimModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="actors">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="actors_movies">
+          <Key>
+            <PropertyRef Name="id_actor" />
+            <PropertyRef Name="id_movie" />
+          </Key>
+          <Property Name="id_actor" Type="int" Nullable="false" />
+          <Property Name="id_movie" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="cinemas">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="address" Type="nvarchar" MaxLength="100" />
+          <Property Name="amount_rooms" Type="int" />
+        </EntityType>
+        <EntityType Name="customers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="phone" Type="char" MaxLength="10" />
+          <Property Name="rank" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="directors">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="foods_drinks">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="price" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="category" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="genres">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="genres_movies">
+          <Key>
+            <PropertyRef Name="id_genre" />
+            <PropertyRef Name="id_movie" />
+          </Key>
+          <Property Name="id_genre" Type="int" Nullable="false" />
+          <Property Name="id_movie" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="movies">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="duration" Type="time" Precision="7" />
+          <Property Name="image" Type="nvarchar" MaxLength="300" />
+          <Property Name="id_director" Type="int" />
+          <Property Name="description" Type="nvarchar" MaxLength="500" />
+          <Property Name="release_date" Type="date" />
+        </EntityType>
+        <EntityType Name="problems">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_staff" Type="int" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="30" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="300" />
+          <Property Name="date_start" Type="datetime" Nullable="false" />
+          <Property Name="date_end" Type="datetime" />
+          <Property Name="expense" Type="money" />
+        </EntityType>
+        <EntityType Name="screen_rooms">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_cinema" Type="int" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="amount_seats" Type="int" />
+        </EntityType>
+        <EntityType Name="screen_rooms_seats">
+          <Key>
+            <PropertyRef Name="id_screen_room" />
+            <PropertyRef Name="id_seat" />
+          </Key>
+          <Property Name="id_screen_room" Type="int" Nullable="false" />
+          <Property Name="id_seat" Type="int" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="seats">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="number_of_column" Type="int" />
+          <Property Name="number_of_row" Type="char" MaxLength="1" />
+          <Property Name="genre_seats" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="show_times">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_movie" Type="int" />
+          <Property Name="id_screen_room" Type="int" />
+          <Property Name="time_start" Type="datetime" />
+          <Property Name="time_end" Type="datetime" />
+        </EntityType>
+        <EntityType Name="staffs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="office" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="phone" Type="char" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="tickets">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_show_time" Type="int" />
+          <Property Name="id_seat" Type="int" />
+          <Property Name="price" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="transactions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_customer" Type="int" />
+          <Property Name="id_ticket" Type="int" />
+          <Property Name="id_staff" Type="int" />
+          <Property Name="total_amount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="time_transaction" Type="datetime" />
+          <Property Name="type_transaction" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="transactions_foods_drinks">
+          <Key>
+            <PropertyRef Name="id_transaction" />
+            <PropertyRef Name="id_food_drink" />
+          </Key>
+          <Property Name="id_transaction" Type="int" Nullable="false" />
+          <Property Name="id_food_drink" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="voucher_uses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_customer" Type="int" />
+          <Property Name="id_voucher" Type="int" />
+          <Property Name="date_used" Type="datetime" />
+        </EntityType>
+        <EntityType Name="vouchers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="rank" Type="nvarchar" MaxLength="20" />
+          <Property Name="date_start" Type="date" />
+          <Property Name="date_end" Type="date" />
+        </EntityType>
+        <Association Name="fk_actors_movies_actors">
+          <End Role="actors" Type="Self.actors" Multiplicity="1" />
+          <End Role="actors_movies" Type="Self.actors_movies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="actors">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="actors_movies">
+              <PropertyRef Name="id_actor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_actors_movies_movies">
+          <End Role="movies" Type="Self.movies" Multiplicity="1" />
+          <End Role="actors_movies" Type="Self.actors_movies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="movies">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="actors_movies">
+              <PropertyRef Name="id_movie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_genres_movies_genres">
+          <End Role="genres" Type="Self.genres" Multiplicity="1" />
+          <End Role="genres_movies" Type="Self.genres_movies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="genres">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="genres_movies">
+              <PropertyRef Name="id_genre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_genres_movies_movies">
+          <End Role="movies" Type="Self.movies" Multiplicity="1" />
+          <End Role="genres_movies" Type="Self.genres_movies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="movies">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="genres_movies">
+              <PropertyRef Name="id_movie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_movie_directors">
+          <End Role="directors" Type="Self.directors" Multiplicity="0..1" />
+          <End Role="movies" Type="Self.movies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="directors">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="movies">
+              <PropertyRef Name="id_director" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_problems_staff">
+          <End Role="staffs" Type="Self.staffs" Multiplicity="1" />
+          <End Role="problems" Type="Self.problems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="staffs">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="problems">
+              <PropertyRef Name="id_staff" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_screen_rooms">
+          <End Role="cinemas" Type="Self.cinemas" Multiplicity="0..1" />
+          <End Role="screen_rooms" Type="Self.screen_rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cinemas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="screen_rooms">
+              <PropertyRef Name="id_cinema" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_screen_rooms_seats_screen_rooms">
+          <End Role="screen_rooms" Type="Self.screen_rooms" Multiplicity="1" />
+          <End Role="screen_rooms_seats" Type="Self.screen_rooms_seats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="screen_rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="screen_rooms_seats">
+              <PropertyRef Name="id_screen_room" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_screen_rooms_seats_seats">
+          <End Role="seats" Type="Self.seats" Multiplicity="1" />
+          <End Role="screen_rooms_seats" Type="Self.screen_rooms_seats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seats">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="screen_rooms_seats">
+              <PropertyRef Name="id_seat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_show_times_movies">
+          <End Role="movies" Type="Self.movies" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="show_times" Type="Self.show_times" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="movies">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="show_times">
+              <PropertyRef Name="id_movie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_show_times_screen_rooms">
+          <End Role="screen_rooms" Type="Self.screen_rooms" Multiplicity="0..1" />
+          <End Role="show_times" Type="Self.show_times" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="screen_rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="show_times">
+              <PropertyRef Name="id_screen_room" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tickets_seats">
+          <End Role="seats" Type="Self.seats" Multiplicity="0..1" />
+          <End Role="tickets" Type="Self.tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seats">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tickets">
+              <PropertyRef Name="id_seat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tickets_show_times">
+          <End Role="show_times" Type="Self.show_times" Multiplicity="0..1" />
+          <End Role="tickets" Type="Self.tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="show_times">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tickets">
+              <PropertyRef Name="id_show_time" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_transactions_customers">
+          <End Role="customers" Type="Self.customers" Multiplicity="0..1" />
+          <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="id_customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_transactions_foods_drinks_foods_drinks">
+          <End Role="foods_drinks" Type="Self.foods_drinks" Multiplicity="1" />
+          <End Role="transactions_foods_drinks" Type="Self.transactions_foods_drinks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="foods_drinks">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transactions_foods_drinks">
+              <PropertyRef Name="id_food_drink" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_transactions_foods_drinks_transactions">
+          <End Role="transactions" Type="Self.transactions" Multiplicity="1" />
+          <End Role="transactions_foods_drinks" Type="Self.transactions_foods_drinks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="transactions">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transactions_foods_drinks">
+              <PropertyRef Name="id_transaction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_transactions_staff">
+          <End Role="staffs" Type="Self.staffs" Multiplicity="0..1" />
+          <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="staffs">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="id_staff" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_transactions_tickets">
+          <End Role="tickets" Type="Self.tickets" Multiplicity="0..1" />
+          <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tickets">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="id_ticket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_voucher_uses_customer">
+          <End Role="customers" Type="Self.customers" Multiplicity="0..1" />
+          <End Role="voucher_uses" Type="Self.voucher_uses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="voucher_uses">
+              <PropertyRef Name="id_customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_voucher_uses_voucher">
+          <End Role="vouchers" Type="Self.vouchers" Multiplicity="0..1" />
+          <End Role="voucher_uses" Type="Self.voucher_uses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vouchers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="voucher_uses">
+              <PropertyRef Name="id_voucher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QuanLy_RapChieuPhimModelStoreContainer">
+          <EntitySet Name="actors" EntityType="Self.actors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="actors_movies" EntityType="Self.actors_movies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cinemas" EntityType="Self.cinemas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="customers" EntityType="Self.customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="directors" EntityType="Self.directors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="foods_drinks" EntityType="Self.foods_drinks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="genres" EntityType="Self.genres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="genres_movies" EntityType="Self.genres_movies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="movies" EntityType="Self.movies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="problems" EntityType="Self.problems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="screen_rooms" EntityType="Self.screen_rooms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="screen_rooms_seats" EntityType="Self.screen_rooms_seats" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="seats" EntityType="Self.seats" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="show_times" EntityType="Self.show_times" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="staffs" EntityType="Self.staffs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tickets" EntityType="Self.tickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="transactions" EntityType="Self.transactions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="transactions_foods_drinks" EntityType="Self.transactions_foods_drinks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="voucher_uses" EntityType="Self.voucher_uses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vouchers" EntityType="Self.vouchers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_actors_movies_actors" Association="Self.fk_actors_movies_actors">
+            <End Role="actors" EntitySet="actors" />
+            <End Role="actors_movies" EntitySet="actors_movies" />
+          </AssociationSet>
+          <AssociationSet Name="fk_actors_movies_movies" Association="Self.fk_actors_movies_movies">
+            <End Role="movies" EntitySet="movies" />
+            <End Role="actors_movies" EntitySet="actors_movies" />
+          </AssociationSet>
+          <AssociationSet Name="fk_genres_movies_genres" Association="Self.fk_genres_movies_genres">
+            <End Role="genres" EntitySet="genres" />
+            <End Role="genres_movies" EntitySet="genres_movies" />
+          </AssociationSet>
+          <AssociationSet Name="fk_genres_movies_movies" Association="Self.fk_genres_movies_movies">
+            <End Role="movies" EntitySet="movies" />
+            <End Role="genres_movies" EntitySet="genres_movies" />
+          </AssociationSet>
+          <AssociationSet Name="fk_movie_directors" Association="Self.fk_movie_directors">
+            <End Role="directors" EntitySet="directors" />
+            <End Role="movies" EntitySet="movies" />
+          </AssociationSet>
+          <AssociationSet Name="fk_problems_staff" Association="Self.fk_problems_staff">
+            <End Role="staffs" EntitySet="staffs" />
+            <End Role="problems" EntitySet="problems" />
+          </AssociationSet>
+          <AssociationSet Name="fk_screen_rooms" Association="Self.fk_screen_rooms">
+            <End Role="cinemas" EntitySet="cinemas" />
+            <End Role="screen_rooms" EntitySet="screen_rooms" />
+          </AssociationSet>
+          <AssociationSet Name="fk_screen_rooms_seats_screen_rooms" Association="Self.fk_screen_rooms_seats_screen_rooms">
+            <End Role="screen_rooms" EntitySet="screen_rooms" />
+            <End Role="screen_rooms_seats" EntitySet="screen_rooms_seats" />
+          </AssociationSet>
+          <AssociationSet Name="fk_screen_rooms_seats_seats" Association="Self.fk_screen_rooms_seats_seats">
+            <End Role="seats" EntitySet="seats" />
+            <End Role="screen_rooms_seats" EntitySet="screen_rooms_seats" />
+          </AssociationSet>
+          <AssociationSet Name="fk_show_times_movies" Association="Self.fk_show_times_movies">
+            <End Role="movies" EntitySet="movies" />
+            <End Role="show_times" EntitySet="show_times" />
+          </AssociationSet>
+          <AssociationSet Name="fk_show_times_screen_rooms" Association="Self.fk_show_times_screen_rooms">
+            <End Role="screen_rooms" EntitySet="screen_rooms" />
+            <End Role="show_times" EntitySet="show_times" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tickets_seats" Association="Self.fk_tickets_seats">
+            <End Role="seats" EntitySet="seats" />
+            <End Role="tickets" EntitySet="tickets" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tickets_show_times" Association="Self.fk_tickets_show_times">
+            <End Role="show_times" EntitySet="show_times" />
+            <End Role="tickets" EntitySet="tickets" />
+          </AssociationSet>
+          <AssociationSet Name="fk_transactions_customers" Association="Self.fk_transactions_customers">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="transactions" EntitySet="transactions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_transactions_foods_drinks_foods_drinks" Association="Self.fk_transactions_foods_drinks_foods_drinks">
+            <End Role="foods_drinks" EntitySet="foods_drinks" />
+            <End Role="transactions_foods_drinks" EntitySet="transactions_foods_drinks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_transactions_foods_drinks_transactions" Association="Self.fk_transactions_foods_drinks_transactions">
+            <End Role="transactions" EntitySet="transactions" />
+            <End Role="transactions_foods_drinks" EntitySet="transactions_foods_drinks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_transactions_staff" Association="Self.fk_transactions_staff">
+            <End Role="staffs" EntitySet="staffs" />
+            <End Role="transactions" EntitySet="transactions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_transactions_tickets" Association="Self.fk_transactions_tickets">
+            <End Role="tickets" EntitySet="tickets" />
+            <End Role="transactions" EntitySet="transactions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_voucher_uses_customer" Association="Self.fk_voucher_uses_customer">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="voucher_uses" EntitySet="voucher_uses" />
+          </AssociationSet>
+          <AssociationSet Name="fk_voucher_uses_voucher" Association="Self.fk_voucher_uses_voucher">
+            <End Role="vouchers" EntitySet="vouchers" />
+            <End Role="voucher_uses" EntitySet="voucher_uses" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="QuanLy_RapChieuPhimModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="actor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="movies" Relationship="QuanLy_RapChieuPhimModel.actors_movies" FromRole="actor" ToRole="movy" />
+        </EntityType>
+        <EntityType Name="director">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="movies" Relationship="QuanLy_RapChieuPhimModel.fk_movie_directors" FromRole="director" ToRole="movy" />
+        </EntityType>
+        <EntityType Name="genre">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="movies" Relationship="QuanLy_RapChieuPhimModel.genres_movies" FromRole="genre" ToRole="movy" />
+        </EntityType>
+        <EntityContainer Name="QL_RCP_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="actors" EntityType="Self.actor" />
+          <EntitySet Name="directors" EntityType="Self.director" />
+          <EntitySet Name="genres" EntityType="Self.genre" />
+          <EntitySet Name="cinemas" EntityType="QuanLy_RapChieuPhimModel.cinema" />
+          <EntitySet Name="customers" EntityType="QuanLy_RapChieuPhimModel.customer" />
+          <EntitySet Name="foods_drinks" EntityType="QuanLy_RapChieuPhimModel.foods_drinks" />
+          <EntitySet Name="movies" EntityType="QuanLy_RapChieuPhimModel.movy" />
+          <EntitySet Name="problems" EntityType="QuanLy_RapChieuPhimModel.problem" />
+          <EntitySet Name="screen_rooms" EntityType="QuanLy_RapChieuPhimModel.screen_rooms" />
+          <EntitySet Name="screen_rooms_seats" EntityType="QuanLy_RapChieuPhimModel.screen_rooms_seats" />
+          <EntitySet Name="seats" EntityType="QuanLy_RapChieuPhimModel.seat" />
+          <EntitySet Name="show_times" EntityType="QuanLy_RapChieuPhimModel.show_times" />
+          <EntitySet Name="staffs" EntityType="QuanLy_RapChieuPhimModel.staff" />
+          <EntitySet Name="tickets" EntityType="QuanLy_RapChieuPhimModel.ticket" />
+          <EntitySet Name="transactions" EntityType="QuanLy_RapChieuPhimModel.transaction" />
+          <EntitySet Name="transactions_foods_drinks" EntityType="QuanLy_RapChieuPhimModel.transactions_foods_drinks" />
+          <EntitySet Name="voucher_uses" EntityType="QuanLy_RapChieuPhimModel.voucher_uses" />
+          <EntitySet Name="vouchers" EntityType="QuanLy_RapChieuPhimModel.voucher" />
+          <AssociationSet Name="fk_screen_rooms" Association="QuanLy_RapChieuPhimModel.fk_screen_rooms">
+            <End Role="cinema" EntitySet="cinemas" />
+            <End Role="screen_rooms" EntitySet="screen_rooms" />
+          </AssociationSet>
+          <AssociationSet Name="fk_transactions_customers" Association="QuanLy_RapChieuPhimModel.fk_transactions_customers">
+            <End Role="customer" EntitySet="customers" />
+            <End Role="transaction" EntitySet="transactions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_voucher_uses_customer" Association="QuanLy_RapChieuPhimModel.fk_voucher_uses_customer">
+            <End Role="customer" EntitySet="customers" />
+            <End Role="voucher_uses" EntitySet="voucher_uses" />
+          </AssociationSet>
+          <AssociationSet Name="fk_movie_directors" Association="QuanLy_RapChieuPhimModel.fk_movie_directors">
+            <End Role="director" EntitySet="directors" />
+            <End Role="movy" EntitySet="movies" />
+          </AssociationSet>
+          <AssociationSet Name="fk_transactions_foods_drinks_foods_drinks" Association="QuanLy_RapChieuPhimModel.fk_transactions_foods_drinks_foods_drinks">
+            <End Role="foods_drinks" EntitySet="foods_drinks" />
+            <End Role="transactions_foods_drinks" EntitySet="transactions_foods_drinks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_show_times_movies" Association="QuanLy_RapChieuPhimModel.fk_show_times_movies">
+            <End Role="movy" EntitySet="movies" />
+            <End Role="show_times" EntitySet="show_times" />
+          </AssociationSet>
+          <AssociationSet Name="fk_problems_staff" Association="QuanLy_RapChieuPhimModel.fk_problems_staff">
+            <End Role="staff" EntitySet="staffs" />
+            <End Role="problem" EntitySet="problems" />
+          </AssociationSet>
+          <AssociationSet Name="fk_screen_rooms_seats_screen_rooms" Association="QuanLy_RapChieuPhimModel.fk_screen_rooms_seats_screen_rooms">
+            <End Role="screen_rooms" EntitySet="screen_rooms" />
+            <End Role="screen_rooms_seats" EntitySet="screen_rooms_seats" />
+          </AssociationSet>
+          <AssociationSet Name="fk_show_times_screen_rooms" Association="QuanLy_RapChieuPhimModel.fk_show_times_screen_rooms">
+            <End Role="screen_rooms" EntitySet="screen_rooms" />
+            <End Role="show_times" EntitySet="show_times" />
+          </AssociationSet>
+          <AssociationSet Name="fk_screen_rooms_seats_seats" Association="QuanLy_RapChieuPhimModel.fk_screen_rooms_seats_seats">
+            <End Role="seat" EntitySet="seats" />
+            <End Role="screen_rooms_seats" EntitySet="screen_rooms_seats" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tickets_seats" Association="QuanLy_RapChieuPhimModel.fk_tickets_seats">
+            <End Role="seat" EntitySet="seats" />
+            <End Role="ticket" EntitySet="tickets" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tickets_show_times" Association="QuanLy_RapChieuPhimModel.fk_tickets_show_times">
+            <End Role="show_times" EntitySet="show_times" />
+            <End Role="ticket" EntitySet="tickets" />
+          </AssociationSet>
+          <AssociationSet Name="fk_transactions_staff" Association="QuanLy_RapChieuPhimModel.fk_transactions_staff">
+            <End Role="staff" EntitySet="staffs" />
+            <End Role="transaction" EntitySet="transactions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_transactions_tickets" Association="QuanLy_RapChieuPhimModel.fk_transactions_tickets">
+            <End Role="ticket" EntitySet="tickets" />
+            <End Role="transaction" EntitySet="transactions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_transactions_foods_drinks_transactions" Association="QuanLy_RapChieuPhimModel.fk_transactions_foods_drinks_transactions">
+            <End Role="transaction" EntitySet="transactions" />
+            <End Role="transactions_foods_drinks" EntitySet="transactions_foods_drinks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_voucher_uses_voucher" Association="QuanLy_RapChieuPhimModel.fk_voucher_uses_voucher">
+            <End Role="voucher" EntitySet="vouchers" />
+            <End Role="voucher_uses" EntitySet="voucher_uses" />
+          </AssociationSet>
+          <AssociationSet Name="actors_movies" Association="QuanLy_RapChieuPhimModel.actors_movies">
+            <End Role="actor" EntitySet="actors" />
+            <End Role="movy" EntitySet="movies" />
+          </AssociationSet>
+          <AssociationSet Name="genres_movies" Association="QuanLy_RapChieuPhimModel.genres_movies">
+            <End Role="genre" EntitySet="genres" />
+            <End Role="movy" EntitySet="movies" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="cinema">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="amount_rooms" Type="Int32" />
+          <NavigationProperty Name="screen_rooms" Relationship="QuanLy_RapChieuPhimModel.fk_screen_rooms" FromRole="cinema" ToRole="screen_rooms" />
+        </EntityType>
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="rank" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="transactions" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_customers" FromRole="customer" ToRole="transaction" />
+          <NavigationProperty Name="voucher_uses" Relationship="QuanLy_RapChieuPhimModel.fk_voucher_uses_customer" FromRole="customer" ToRole="voucher_uses" />
+        </EntityType>
+        <EntityType Name="foods_drinks">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="category" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="transactions_foods_drinks" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_foods_drinks_foods_drinks" FromRole="foods_drinks" ToRole="transactions_foods_drinks" />
+        </EntityType>
+        <EntityType Name="movy">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="duration" Type="Time" Precision="7" />
+          <Property Name="image" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="id_director" Type="Int32" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="release_date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="director" Relationship="QuanLy_RapChieuPhimModel.fk_movie_directors" FromRole="movy" ToRole="director" />
+          <NavigationProperty Name="show_times" Relationship="QuanLy_RapChieuPhimModel.fk_show_times_movies" FromRole="movy" ToRole="show_times" />
+          <NavigationProperty Name="actors" Relationship="QuanLy_RapChieuPhimModel.actors_movies" FromRole="movy" ToRole="actor" />
+          <NavigationProperty Name="genres" Relationship="QuanLy_RapChieuPhimModel.genres_movies" FromRole="movy" ToRole="genre" />
+        </EntityType>
+        <EntityType Name="problem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_staff" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="date_start" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="date_end" Type="DateTime" Precision="3" />
+          <Property Name="expense" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="staff" Relationship="QuanLy_RapChieuPhimModel.fk_problems_staff" FromRole="problem" ToRole="staff" />
+        </EntityType>
+        <EntityType Name="screen_rooms">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_cinema" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="amount_seats" Type="Int32" />
+          <NavigationProperty Name="cinema" Relationship="QuanLy_RapChieuPhimModel.fk_screen_rooms" FromRole="screen_rooms" ToRole="cinema" />
+          <NavigationProperty Name="screen_rooms_seats" Relationship="QuanLy_RapChieuPhimModel.fk_screen_rooms_seats_screen_rooms" FromRole="screen_rooms" ToRole="screen_rooms_seats" />
+          <NavigationProperty Name="show_times" Relationship="QuanLy_RapChieuPhimModel.fk_show_times_screen_rooms" FromRole="screen_rooms" ToRole="show_times" />
+        </EntityType>
+        <EntityType Name="screen_rooms_seats">
+          <Key>
+            <PropertyRef Name="id_screen_room" />
+            <PropertyRef Name="id_seat" />
+          </Key>
+          <Property Name="id_screen_room" Type="Int32" Nullable="false" />
+          <Property Name="id_seat" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="screen_rooms" Relationship="QuanLy_RapChieuPhimModel.fk_screen_rooms_seats_screen_rooms" FromRole="screen_rooms_seats" ToRole="screen_rooms" />
+          <NavigationProperty Name="seat" Relationship="QuanLy_RapChieuPhimModel.fk_screen_rooms_seats_seats" FromRole="screen_rooms_seats" ToRole="seat" />
+        </EntityType>
+        <EntityType Name="seat">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="number_of_column" Type="Int32" />
+          <Property Name="number_of_row" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="genre_seats" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="screen_rooms_seats" Relationship="QuanLy_RapChieuPhimModel.fk_screen_rooms_seats_seats" FromRole="seat" ToRole="screen_rooms_seats" />
+          <NavigationProperty Name="tickets" Relationship="QuanLy_RapChieuPhimModel.fk_tickets_seats" FromRole="seat" ToRole="ticket" />
+        </EntityType>
+        <EntityType Name="show_times">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_movie" Type="Int32" />
+          <Property Name="id_screen_room" Type="Int32" />
+          <Property Name="time_start" Type="DateTime" Precision="3" />
+          <Property Name="time_end" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="movy" Relationship="QuanLy_RapChieuPhimModel.fk_show_times_movies" FromRole="show_times" ToRole="movy" />
+          <NavigationProperty Name="screen_rooms" Relationship="QuanLy_RapChieuPhimModel.fk_show_times_screen_rooms" FromRole="show_times" ToRole="screen_rooms" />
+          <NavigationProperty Name="tickets" Relationship="QuanLy_RapChieuPhimModel.fk_tickets_show_times" FromRole="show_times" ToRole="ticket" />
+        </EntityType>
+        <EntityType Name="staff">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="office" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="problems" Relationship="QuanLy_RapChieuPhimModel.fk_problems_staff" FromRole="staff" ToRole="problem" />
+          <NavigationProperty Name="transactions" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_staff" FromRole="staff" ToRole="transaction" />
+        </EntityType>
+        <EntityType Name="ticket">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_show_time" Type="Int32" />
+          <Property Name="id_seat" Type="Int32" />
+          <Property Name="price" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="seat" Relationship="QuanLy_RapChieuPhimModel.fk_tickets_seats" FromRole="ticket" ToRole="seat" />
+          <NavigationProperty Name="show_times" Relationship="QuanLy_RapChieuPhimModel.fk_tickets_show_times" FromRole="ticket" ToRole="show_times" />
+          <NavigationProperty Name="transactions" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_tickets" FromRole="ticket" ToRole="transaction" />
+        </EntityType>
+        <EntityType Name="transaction">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_customer" Type="Int32" />
+          <Property Name="id_ticket" Type="Int32" />
+          <Property Name="id_staff" Type="Int32" />
+          <Property Name="total_amount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="time_transaction" Type="DateTime" Precision="3" />
+          <Property Name="type_transaction" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="customer" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_customers" FromRole="transaction" ToRole="customer" />
+          <NavigationProperty Name="staff" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_staff" FromRole="transaction" ToRole="staff" />
+          <NavigationProperty Name="ticket" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_tickets" FromRole="transaction" ToRole="ticket" />
+          <NavigationProperty Name="transactions_foods_drinks" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_foods_drinks_transactions" FromRole="transaction" ToRole="transactions_foods_drinks" />
+        </EntityType>
+        <EntityType Name="transactions_foods_drinks">
+          <Key>
+            <PropertyRef Name="id_transaction" />
+            <PropertyRef Name="id_food_drink" />
+          </Key>
+          <Property Name="id_transaction" Type="Int32" Nullable="false" />
+          <Property Name="id_food_drink" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" />
+          <NavigationProperty Name="foods_drinks" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_foods_drinks_foods_drinks" FromRole="transactions_foods_drinks" ToRole="foods_drinks" />
+          <NavigationProperty Name="transaction" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_foods_drinks_transactions" FromRole="transactions_foods_drinks" ToRole="transaction" />
+        </EntityType>
+        <EntityType Name="voucher_uses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_customer" Type="Int32" />
+          <Property Name="id_voucher" Type="Int32" />
+          <Property Name="date_used" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="customer" Relationship="QuanLy_RapChieuPhimModel.fk_voucher_uses_customer" FromRole="voucher_uses" ToRole="customer" />
+          <NavigationProperty Name="voucher" Relationship="QuanLy_RapChieuPhimModel.fk_voucher_uses_voucher" FromRole="voucher_uses" ToRole="voucher" />
+        </EntityType>
+        <EntityType Name="voucher">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="rank" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="date_start" Type="DateTime" Precision="0" />
+          <Property Name="date_end" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="voucher_uses" Relationship="QuanLy_RapChieuPhimModel.fk_voucher_uses_voucher" FromRole="voucher" ToRole="voucher_uses" />
+        </EntityType>
+        <Association Name="fk_screen_rooms">
+          <End Type="QuanLy_RapChieuPhimModel.cinema" Role="cinema" Multiplicity="0..1" />
+          <End Type="QuanLy_RapChieuPhimModel.screen_rooms" Role="screen_rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cinema">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="screen_rooms">
+              <PropertyRef Name="id_cinema" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_transactions_customers">
+          <End Type="QuanLy_RapChieuPhimModel.customer" Role="customer" Multiplicity="0..1" />
+          <End Type="QuanLy_RapChieuPhimModel.transaction" Role="transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transaction">
+              <PropertyRef Name="id_customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_voucher_uses_customer">
+          <End Type="QuanLy_RapChieuPhimModel.customer" Role="customer" Multiplicity="0..1" />
+          <End Type="QuanLy_RapChieuPhimModel.voucher_uses" Role="voucher_uses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="voucher_uses">
+              <PropertyRef Name="id_customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_movie_directors">
+          <End Type="QuanLy_RapChieuPhimModel.director" Role="director" Multiplicity="0..1" />
+          <End Type="QuanLy_RapChieuPhimModel.movy" Role="movy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="director">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="movy">
+              <PropertyRef Name="id_director" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_transactions_foods_drinks_foods_drinks">
+          <End Type="QuanLy_RapChieuPhimModel.foods_drinks" Role="foods_drinks" Multiplicity="1" />
+          <End Type="QuanLy_RapChieuPhimModel.transactions_foods_drinks" Role="transactions_foods_drinks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="foods_drinks">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transactions_foods_drinks">
+              <PropertyRef Name="id_food_drink" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_show_times_movies">
+          <End Type="QuanLy_RapChieuPhimModel.movy" Role="movy" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="QuanLy_RapChieuPhimModel.show_times" Role="show_times" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="movy">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="show_times">
+              <PropertyRef Name="id_movie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_problems_staff">
+          <End Type="QuanLy_RapChieuPhimModel.staff" Role="staff" Multiplicity="1" />
+          <End Type="QuanLy_RapChieuPhimModel.problem" Role="problem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="staff">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="problem">
+              <PropertyRef Name="id_staff" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_screen_rooms_seats_screen_rooms">
+          <End Type="QuanLy_RapChieuPhimModel.screen_rooms" Role="screen_rooms" Multiplicity="1" />
+          <End Type="QuanLy_RapChieuPhimModel.screen_rooms_seats" Role="screen_rooms_seats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="screen_rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="screen_rooms_seats">
+              <PropertyRef Name="id_screen_room" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_show_times_screen_rooms">
+          <End Type="QuanLy_RapChieuPhimModel.screen_rooms" Role="screen_rooms" Multiplicity="0..1" />
+          <End Type="QuanLy_RapChieuPhimModel.show_times" Role="show_times" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="screen_rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="show_times">
+              <PropertyRef Name="id_screen_room" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_screen_rooms_seats_seats">
+          <End Type="QuanLy_RapChieuPhimModel.seat" Role="seat" Multiplicity="1" />
+          <End Type="QuanLy_RapChieuPhimModel.screen_rooms_seats" Role="screen_rooms_seats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seat">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="screen_rooms_seats">
+              <PropertyRef Name="id_seat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tickets_seats">
+          <End Type="QuanLy_RapChieuPhimModel.seat" Role="seat" Multiplicity="0..1" />
+          <End Type="QuanLy_RapChieuPhimModel.ticket" Role="ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seat">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ticket">
+              <PropertyRef Name="id_seat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tickets_show_times">
+          <End Type="QuanLy_RapChieuPhimModel.show_times" Role="show_times" Multiplicity="0..1" />
+          <End Type="QuanLy_RapChieuPhimModel.ticket" Role="ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="show_times">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ticket">
+              <PropertyRef Name="id_show_time" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_transactions_staff">
+          <End Type="QuanLy_RapChieuPhimModel.staff" Role="staff" Multiplicity="0..1" />
+          <End Type="QuanLy_RapChieuPhimModel.transaction" Role="transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="staff">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transaction">
+              <PropertyRef Name="id_staff" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_transactions_tickets">
+          <End Type="QuanLy_RapChieuPhimModel.ticket" Role="ticket" Multiplicity="0..1" />
+          <End Type="QuanLy_RapChieuPhimModel.transaction" Role="transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ticket">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transaction">
+              <PropertyRef Name="id_ticket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_transactions_foods_drinks_transactions">
+          <End Type="QuanLy_RapChieuPhimModel.transaction" Role="transaction" Multiplicity="1" />
+          <End Type="QuanLy_RapChieuPhimModel.transactions_foods_drinks" Role="transactions_foods_drinks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="transaction">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transactions_foods_drinks">
+              <PropertyRef Name="id_transaction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_voucher_uses_voucher">
+          <End Type="QuanLy_RapChieuPhimModel.voucher" Role="voucher" Multiplicity="0..1" />
+          <End Type="QuanLy_RapChieuPhimModel.voucher_uses" Role="voucher_uses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="voucher">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="voucher_uses">
+              <PropertyRef Name="id_voucher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="actors_movies">
+          <End Type="QuanLy_RapChieuPhimModel.actor" Role="actor" Multiplicity="*" />
+          <End Type="QuanLy_RapChieuPhimModel.movy" Role="movy" Multiplicity="*" />
+        </Association>
+        <Association Name="genres_movies">
+          <End Type="QuanLy_RapChieuPhimModel.genre" Role="genre" Multiplicity="*" />
+          <End Type="QuanLy_RapChieuPhimModel.movy" Role="movy" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="QuanLy_RapChieuPhimModelStoreContainer" CdmEntityContainer="QL_RCP_Entities">
+          <EntitySetMapping Name="actors">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.actor">
+              <MappingFragment StoreEntitySet="actors">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="directors">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.director">
+              <MappingFragment StoreEntitySet="directors">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="genres">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.genre">
+              <MappingFragment StoreEntitySet="genres">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cinemas">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.cinema">
+              <MappingFragment StoreEntitySet="cinemas">
+                <ScalarProperty Name="amount_rooms" ColumnName="amount_rooms" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="customers">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.customer">
+              <MappingFragment StoreEntitySet="customers">
+                <ScalarProperty Name="rank" ColumnName="rank" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="foods_drinks">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.foods_drinks">
+              <MappingFragment StoreEntitySet="foods_drinks">
+                <ScalarProperty Name="category" ColumnName="category" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="movies">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.movy">
+              <MappingFragment StoreEntitySet="movies">
+                <ScalarProperty Name="release_date" ColumnName="release_date" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="id_director" ColumnName="id_director" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="problems">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.problem">
+              <MappingFragment StoreEntitySet="problems">
+                <ScalarProperty Name="expense" ColumnName="expense" />
+                <ScalarProperty Name="date_end" ColumnName="date_end" />
+                <ScalarProperty Name="date_start" ColumnName="date_start" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="id_staff" ColumnName="id_staff" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="screen_rooms">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.screen_rooms">
+              <MappingFragment StoreEntitySet="screen_rooms">
+                <ScalarProperty Name="amount_seats" ColumnName="amount_seats" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id_cinema" ColumnName="id_cinema" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="screen_rooms_seats">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.screen_rooms_seats">
+              <MappingFragment StoreEntitySet="screen_rooms_seats">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="id_seat" ColumnName="id_seat" />
+                <ScalarProperty Name="id_screen_room" ColumnName="id_screen_room" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="seats">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.seat">
+              <MappingFragment StoreEntitySet="seats">
+                <ScalarProperty Name="genre_seats" ColumnName="genre_seats" />
+                <ScalarProperty Name="number_of_row" ColumnName="number_of_row" />
+                <ScalarProperty Name="number_of_column" ColumnName="number_of_column" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="show_times">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.show_times">
+              <MappingFragment StoreEntitySet="show_times">
+                <ScalarProperty Name="time_end" ColumnName="time_end" />
+                <ScalarProperty Name="time_start" ColumnName="time_start" />
+                <ScalarProperty Name="id_screen_room" ColumnName="id_screen_room" />
+                <ScalarProperty Name="id_movie" ColumnName="id_movie" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="staffs">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.staff">
+              <MappingFragment StoreEntitySet="staffs">
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="office" ColumnName="office" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tickets">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.ticket">
+              <MappingFragment StoreEntitySet="tickets">
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="id_seat" ColumnName="id_seat" />
+                <ScalarProperty Name="id_show_time" ColumnName="id_show_time" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transactions">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.transaction">
+              <MappingFragment StoreEntitySet="transactions">
+                <ScalarProperty Name="type_transaction" ColumnName="type_transaction" />
+                <ScalarProperty Name="time_transaction" ColumnName="time_transaction" />
+                <ScalarProperty Name="total_amount" ColumnName="total_amount" />
+                <ScalarProperty Name="id_staff" ColumnName="id_staff" />
+                <ScalarProperty Name="id_ticket" ColumnName="id_ticket" />
+                <ScalarProperty Name="id_customer" ColumnName="id_customer" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transactions_foods_drinks">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.transactions_foods_drinks">
+              <MappingFragment StoreEntitySet="transactions_foods_drinks">
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="id_food_drink" ColumnName="id_food_drink" />
+                <ScalarProperty Name="id_transaction" ColumnName="id_transaction" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="voucher_uses">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.voucher_uses">
+              <MappingFragment StoreEntitySet="voucher_uses">
+                <ScalarProperty Name="date_used" ColumnName="date_used" />
+                <ScalarProperty Name="id_voucher" ColumnName="id_voucher" />
+                <ScalarProperty Name="id_customer" ColumnName="id_customer" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vouchers">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.voucher">
+              <MappingFragment StoreEntitySet="vouchers">
+                <ScalarProperty Name="date_end" ColumnName="date_end" />
+                <ScalarProperty Name="date_start" ColumnName="date_start" />
+                <ScalarProperty Name="rank" ColumnName="rank" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="actors_movies" TypeName="QuanLy_RapChieuPhimModel.actors_movies" StoreEntitySet="actors_movies">
+            <EndProperty Name="movy">
+              <ScalarProperty Name="id" ColumnName="id_movie" />
+            </EndProperty>
+            <EndProperty Name="actor">
+              <ScalarProperty Name="id" ColumnName="id_actor" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="genres_movies" TypeName="QuanLy_RapChieuPhimModel.genres_movies" StoreEntitySet="genres_movies">
+            <EndProperty Name="movy">
+              <ScalarProperty Name="id" ColumnName="id_movie" />
+            </EndProperty>
+            <EndProperty Name="genre">
+              <ScalarProperty Name="id" ColumnName="id_genre" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
