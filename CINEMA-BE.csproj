@@ -168,8 +168,21 @@
     <Compile Include="cinema.cs">
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\Api\ActorsController.cs" />
+    <Compile Include="Controllers\Api\CinemasController.cs" />
+    <Compile Include="Controllers\Api\CustomersController.cs" />
+    <Compile Include="Controllers\Api\DirectorsController.cs" />
+    <Compile Include="Controllers\Api\FoodsDrinksController.cs" />
+    <Compile Include="Controllers\Api\GenresController.cs" />
+    <Compile Include="Controllers\Api\ProblemsController.cs" />
+    <Compile Include="Controllers\Api\ScreenRoomsController.cs" />
+    <Compile Include="Controllers\Api\ShowTimesController.cs" />
+    <Compile Include="Controllers\Api\StaffsController.cs" />
+    <Compile Include="Controllers\Api\TicketsController.cs" />
+    <Compile Include="Controllers\Api\TransactionsController.cs" />
+    <Compile Include="Controllers\Api\VouchersController.cs" />
+    <Compile Include="Controllers\Base\HomeController.cs" />
+    <Compile Include="Controllers\Api\MoviesController.cs" />
     <Compile Include="customer.cs">
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
@@ -232,6 +245,7 @@
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
     <Compile Include="Utils\ApiContext.cs" />
+    <Compile Include="Utils\Util.cs" />
     <Compile Include="voucher.cs">
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
