@@ -23,7 +23,6 @@ namespace CINEMA_BE.Controllers
                 {
                     a.id,
                     a.name,
-                    movies = a.movies.Select(m => new { m.id, m.name }),
                 }).ToList();
 
                 if (data == null || !data.Any())
@@ -40,7 +39,7 @@ namespace CINEMA_BE.Controllers
                     currentPage = page,
                     pageSize,
                     totalItem,
-                    data = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(data, ApiContext<actor>.settings))
+                    data
                 });
             }
             catch (Exception ex)
@@ -60,7 +59,7 @@ namespace CINEMA_BE.Controllers
                 {
                     a.id,
                     a.name,
-                    movies = a.movies.Select(m => new { m.id, m.name }),
+                    movies = a.movies.Select(m => new { m.id, m.name, m.description, m.image, m.release_date }),
                 }).ToList();
 
                 if (data == null || !data.Any())
@@ -71,7 +70,7 @@ namespace CINEMA_BE.Controllers
                 return Ok(new
                 {
                     status = "success",
-                    data = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(data, ApiContext<actor>.settings))
+                    data
                 });
             }
             catch (Exception ex)
@@ -97,7 +96,6 @@ namespace CINEMA_BE.Controllers
                 {
                     status = "success",
                     message = "Actor added successfully",
-                    data = actor
                 });
             }
             catch (Exception ex)
@@ -109,18 +107,24 @@ namespace CINEMA_BE.Controllers
         // PUT api/actors/5
         public IHttpActionResult Put(int id, [FromBody] actor actor)
         {
-            if (actor == null || actor.id != id)
-            {
-                return BadRequest("Invalid actor data.");
-            }
-
             try
             {
-                db.actors.Attach(actor);
-                db.Entry(actor).State = EntityState.Modified;
+                if (actor == null)
+                {
+                    return BadRequest("Invalid actor data.");
+                }
+
+                var existingActor = db.actors.Find(id);
+                if (existingActor == null)
+                {
+                    return NotFound();
+                }
+
+                existingActor.name = actor.name;
+
                 db.SaveChanges();
 
-                return Ok(new { status = "success", message = "Actor updated successfully", data = actor });
+                return Ok(new { status = "success", message = "Actor updated successfully"});
             }
             catch (Exception ex)
             {

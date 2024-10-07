@@ -23,7 +23,6 @@ namespace CINEMA_BE.Controllers
                 {
                     d.id,
                     d.name,
-                    movies = d.movies.Select(m => new { m.id, m.name }),
                 }).ToList();
 
                 if (data == null || !data.Any())
@@ -40,7 +39,7 @@ namespace CINEMA_BE.Controllers
                     currentPage = page,
                     pageSize,
                     totalItem,
-                    data = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(data, ApiContext<director>.settings))
+                    data
                 });
             }
             catch (Exception ex)
@@ -60,7 +59,7 @@ namespace CINEMA_BE.Controllers
                 {
                     d.id,
                     d.name,
-                    movies = d.movies.Select(m => new { m.id, m.name }),
+                    movies = d.movies.Select(m => new { m.id, m.name, m.description, m.image, m.release_date }),
                 }).ToList();
 
                 if (data == null || !data.Any())
@@ -71,7 +70,7 @@ namespace CINEMA_BE.Controllers
                 return Ok(new
                 {
                     status = "success",
-                    data = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(data, ApiContext<director>.settings))
+                    data
                 });
             }
             catch (Exception ex)
@@ -97,7 +96,6 @@ namespace CINEMA_BE.Controllers
                 {
                     status = "success",
                     message = "Director added successfully",
-                    data = director
                 });
             }
             catch (Exception ex)
@@ -109,18 +107,24 @@ namespace CINEMA_BE.Controllers
         // PUT api/directors/5
         public IHttpActionResult Put(int id, [FromBody] director director)
         {
-            if (director == null || director.id != id)
-            {
-                return BadRequest("Invalid director data.");
-            }
-
             try
             {
-                db.directors.Attach(director);
-                db.Entry(director).State = EntityState.Modified;
+                if (director == null)
+                {
+                    return BadRequest("Invalid director data.");
+                }
+
+                var existingDirector = db.directors.Find(id);
+                if (existingDirector == null)
+                {
+                    return NotFound();
+                }
+
+                existingDirector.name = director.name;
+
                 db.SaveChanges();
 
-                return Ok(new { status = "success", message = "Director updated successfully", data = director });
+                return Ok(new { status = "success", message = "Director updated successfully" });
             }
             catch (Exception ex)
             {
