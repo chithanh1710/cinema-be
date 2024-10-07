@@ -29,7 +29,7 @@ namespace CINEMA_BE.Controllers
                     m.id,
                     m.name,
                     m.description,
-                    m.id_director,
+                    director = new { m.director.id, m.director.name },
                     m.image,
                     m.release_date
                 }).ToList();
