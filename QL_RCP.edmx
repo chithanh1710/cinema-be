@@ -142,6 +142,16 @@
           <Property Name="email" Type="nvarchar" MaxLength="50" />
           <Property Name="phone" Type="char" MaxLength="10" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="tickets">
           <Key>
             <PropertyRef Name="id" />
@@ -450,6 +460,7 @@
           <EntitySet Name="seats" EntityType="Self.seats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="show_times" EntityType="Self.show_times" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="staffs" EntityType="Self.staffs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tickets" EntityType="Self.tickets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="transactions" EntityType="Self.transactions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="transactions_foods_drinks" EntityType="Self.transactions_foods_drinks" Schema="dbo" store:Type="Tables" />
@@ -655,6 +666,7 @@
             <End Role="genre" EntitySet="genres" />
             <End Role="movy" EntitySet="movies" />
           </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="QuanLy_RapChieuPhimModel.sysdiagram" />
         </EntityContainer>
         <EntityType Name="cinema">
           <Key>
@@ -1041,6 +1053,16 @@
           <End Type="QuanLy_RapChieuPhimModel.genre" Role="genre" Multiplicity="*" />
           <End Type="QuanLy_RapChieuPhimModel.movy" Role="movy" Multiplicity="*" />
         </Association>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1250,6 +1272,17 @@
               <ScalarProperty Name="id" ColumnName="id_genre" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

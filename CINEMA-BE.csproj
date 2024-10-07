@@ -235,6 +235,9 @@
     <Compile Include="staff.cs">
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
     <Compile Include="ticket.cs">
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
