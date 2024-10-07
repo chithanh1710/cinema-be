@@ -3,17 +3,11 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using System;
-using Newtonsoft.Json;
 
 namespace CINEMA_BE.Utils
 {
     public class ApiContext<T> where T : class
     {
-        public static JsonSerializerSettings settings = new JsonSerializerSettings
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-        };
-
         private IQueryable<T> _query;
         private int _totalItem;
 
@@ -62,12 +56,6 @@ namespace CINEMA_BE.Utils
         public IEnumerable<TResult> SelectProperties<TResult>(Func<T, TResult> selector)
         {
             return _query.Select(selector);
-        }
-
-        // Trả về danh sách kết quả
-        public List<T> ToList()
-        {
-            return _query.ToList();
         }
     }
 }

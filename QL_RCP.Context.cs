@@ -43,5 +43,6 @@ namespace CINEMA_BE
         public virtual DbSet<transactions_foods_drinks> transactions_foods_drinks { get; set; }
         public virtual DbSet<voucher_uses> voucher_uses { get; set; }
         public virtual DbSet<voucher> vouchers { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

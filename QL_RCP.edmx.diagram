@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="808738c0d8ee437c865fe811e4e3704e" Name="Diagram1" ZoomLevel="74">
+      <Diagram DiagramId="808738c0d8ee437c865fe811e4e3704e" Name="Diagram1" ZoomLevel="111">
         <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.actor" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.director" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.genre" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
@@ -41,6 +41,7 @@
         <AssociationConnector Association="QuanLy_RapChieuPhimModel.fk_voucher_uses_voucher" />
         <AssociationConnector Association="QuanLy_RapChieuPhimModel.actors_movies" />
         <AssociationConnector Association="QuanLy_RapChieuPhimModel.genres_movies" />
+        <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.sysdiagram" Width="1.5" PointX="10.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

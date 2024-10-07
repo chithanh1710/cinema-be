@@ -1,4 +1,5 @@
 ﻿using CINEMA_BE.Utils;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -22,18 +23,15 @@ namespace CINEMA_BE.Controllers
             try
             {
                 ApiContext<movy> movieContext = new ApiContext<movy>(db.movies);
-                string search = Util.RemoveDiacritics(q);
 
-                var data = movieContext.Filter(m => m.name.Contains(search)).SortBy(m => m.id, false).Pagination(page, pageSize).SelectProperties(m => new
+                var data = movieContext.Filter(m => m.name.Contains(q)).SortBy(m => m.id, false).Pagination(page, pageSize).SelectProperties(m => new
                 {
                     m.id,
                     m.name,
                     m.description,
-                    director = new { m.director.id, m.director.name },
-                    actors = m.actors.Select(a => new { a.id, a.name }),
+                    m.id_director,
                     m.image,
-                    show_times = m.show_times.Select(time => new { time.id, time.id_screen_room, time.time_start, time.time_end }),
-                    m.release_date,
+                    m.release_date
                 }).ToList();
 
                 if (data == null || !data.Any())
@@ -46,11 +44,11 @@ namespace CINEMA_BE.Controllers
                 return Ok(new
                 {
                     status = "success",
-                    search = q,
+                    search = q == "" ? null : q,
                     currentPage = page,
                     pageSize,
                     totalItem,
-                    data = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(data, ApiContext<movy>.settings))
+                    data
                 });
             }
             catch (Exception ex)
@@ -70,6 +68,7 @@ namespace CINEMA_BE.Controllers
                 {
                     m.id,
                     m.name,
+                    genres = m.genres.Select(g => new { g.id, g.name }),
                     m.description,
                     director = new { m.director.id, m.director.name },
                     actors = m.actors.Select(a => new { a.id, a.name }),
@@ -88,7 +87,7 @@ namespace CINEMA_BE.Controllers
                 return Ok(new
                 {
                     status = "success",
-                    data = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(data, ApiContext<movy>.settings))
+                    data
                 });
             }
             catch (Exception ex)
@@ -107,14 +106,57 @@ namespace CINEMA_BE.Controllers
                     return BadRequest("Movie data cannot be null");
                 }
 
+                var validGenres = new List<genre>();
+                var validActors = new List<actor>();
+                var validShowTimes = new List<show_times>();
+
+                // Tạo bản sao của danh sách genres, actors và show_times
+                var genresCopy = movie.genres.ToList();
+                var actorsCopy = movie.actors.ToList();
+                var showTimesCopy = movie.show_times.ToList();
+
+                // Lặp qua các thể loại được thêm vào
+                foreach (var genre in genresCopy)
+                {
+                    var existingGenre = db.genres.Find(genre.id);
+                    if (existingGenre != null)
+                    {
+                        validGenres.Add(existingGenre);
+                    }
+                }
+
+                // Lặp qua các diễn viên được thêm vào
+                foreach (var actor in actorsCopy)
+                {
+                    var existingActor = db.actors.Find(actor.id);
+                    if (existingActor != null)
+                    {
+                        validActors.Add(existingActor);
+                    }
+                }
+
+                // Lặp qua các show_times được thêm vào
+                foreach (var showTime in showTimesCopy)
+                {
+                    var existingShowTime = db.show_times.Find(showTime.id);
+                    if (existingShowTime != null)
+                    {
+                        validShowTimes.Add(existingShowTime);
+                    }
+                }
+
+                // Gán lại danh sách đã lọc
+                movie.genres = validGenres;
+                movie.actors = validActors;
+                movie.show_times = validShowTimes;
+
                 db.movies.Add(movie);
                 db.SaveChanges();
 
                 return Ok(new
                 {
                     status = "success",
-                    message = "Movie added successfully",
-                    data = movie
+                    message = "Movie added successfully"
                 });
             }
             catch (Exception ex)
@@ -123,35 +165,94 @@ namespace CINEMA_BE.Controllers
             }
         }
 
+
+
+
         // PUT api/movies/5
         public IHttpActionResult Put(int id, [FromBody] movy movie)
         {
-            if (movie == null || movie.id != id)
-            {
-                return BadRequest("Invalid movie data.");
-            }
-
             try
             {
-                // Gán ID cho đối tượng movie để cập nhật
-                db.movies.Attach(movie);
+                if (movie == null)
+                {
+                    return BadRequest("Movie data cannot be null");
+                }
 
-                // Đánh dấu đối tượng là đã thay đổi
-                db.Entry(movie).State = EntityState.Modified;
+                var existingMovie = db.movies.FirstOrDefault(m => m.id == id);
 
-                // Lưu thay đổi vào cơ sở dữ liệu
+                if (existingMovie == null)
+                {
+                    return NotFound();
+                }
+
+                // Cập nhật các thông tin cơ bản của phim
+                existingMovie.name = movie.name;
+                existingMovie.duration = movie.duration;
+                existingMovie.image = movie.image;
+                existingMovie.description = movie.description;
+                existingMovie.release_date = movie.release_date;
+                existingMovie.id_director = movie.id_director;
+
+                // Xử lý genres
+                var validGenres = new List<genre>();
+                var genresCopy = movie.genres.ToList();
+                foreach (var genre in genresCopy)
+                {
+                    var existingGenre = db.genres.Find(genre.id);
+                    if (existingGenre != null)
+                    {
+                        validGenres.Add(existingGenre);
+                    }
+                }
+                existingMovie.genres.Clear(); // Xóa các liên kết hiện tại
+                existingMovie.genres = validGenres; // Gán danh sách mới
+
+                // Xử lý actors
+                var validActors = new List<actor>();
+                var actorsCopy = movie.actors.ToList();
+                foreach (var actor in actorsCopy)
+                {
+                    var existingActor = db.actors.Find(actor.id);
+                    if (existingActor != null)
+                    {
+                        validActors.Add(existingActor);
+                    }
+                }
+                existingMovie.actors.Clear(); // Xóa các liên kết hiện tại
+                existingMovie.actors = validActors; // Gán danh sách mới
+
+                // Xử lý show_times
+                var validShowTimes = new List<show_times>();
+                var showTimesCopy = movie.show_times.ToList();
+
+                foreach (var showTime in showTimesCopy)
+                {
+                    var newShowTime = new show_times
+                    {
+                        id_screen_room = showTime.id_screen_room,
+                        time_start = showTime.time_start,
+                        time_end = showTime.time_end
+                    };
+
+                    validShowTimes.Add(newShowTime);
+                }
+                existingMovie.show_times.Clear(); // Xóa các liên kết hiện tại
+                existingMovie.show_times = validShowTimes; // Gán danh sách mới
+
+                // Lưu thay đổi
                 db.SaveChanges();
 
-                return Ok(new { status = "success", message = "Movie updated successfully", data = movie });
-
+                return Ok(new
+                {
+                    status = "success",
+                    message = "Movie updated successfully"
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest($"An error occurred: {ex.Message}");
+                return BadRequest(ex.Message);
             }
-
         }
-
 
         // DELETE api/movies/5
         public IHttpActionResult Delete(int id)
