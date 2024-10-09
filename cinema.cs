@@ -24,6 +24,7 @@ namespace CINEMA_BE
         public string name { get; set; }
         public string address { get; set; }
         public Nullable<int> amount_rooms { get; set; }
+        public string city { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<screen_rooms> screen_rooms { get; set; }

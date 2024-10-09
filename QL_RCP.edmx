@@ -28,6 +28,7 @@
           <Property Name="name" Type="nvarchar" MaxLength="100" />
           <Property Name="address" Type="nvarchar" MaxLength="100" />
           <Property Name="amount_rooms" Type="int" />
+          <Property Name="city" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="customers">
           <Key>
@@ -692,6 +693,7 @@
           <Property Name="address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="amount_rooms" Type="Int32" />
           <NavigationProperty Name="screen_rooms" Relationship="QuanLy_RapChieuPhimModel.fk_screen_rooms" FromRole="cinema" ToRole="screen_rooms" />
+          <Property Name="city" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="customer">
           <Key>
@@ -1124,6 +1126,7 @@
           <EntitySetMapping Name="cinemas">
             <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.cinema">
               <MappingFragment StoreEntitySet="cinemas">
+                <ScalarProperty Name="city" ColumnName="city" />
                 <ScalarProperty Name="amount_rooms" ColumnName="amount_rooms" />
                 <ScalarProperty Name="address" ColumnName="address" />
                 <ScalarProperty Name="name" ColumnName="name" />

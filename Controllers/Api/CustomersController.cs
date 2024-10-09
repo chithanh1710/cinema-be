@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using CINEMA_BE.Utils;
 
 namespace CINEMA_BE.Controllers.Api
 {
@@ -18,34 +19,26 @@ namespace CINEMA_BE.Controllers.Api
             try
             {
                 ApiContext<customer> customerContext = new ApiContext<customer>(db.customers);
-                string search = Util.RemoveDiacritics(q);
 
-                var data = customerContext.Filter(c => c.name.Contains(search)).SortBy(c => c.id, false).Pagination(page, pageSize).SelectProperties(c => new
+                var data = customerContext.Filter(c => c.name.Contains(q)).SortBy(c => c.id, false).Pagination(page, pageSize).SelectProperties(c => new
                 {
                     c.id,
                     c.name,
                     c.email,
                     c.phone,
                     c.rank,
-                    transaction = c.transactions.Select(t => new { t.id, t.id_ticket, t.id_staff, t.total_amount, t.time_transaction, t.type_transaction }),
-                    voucher_uses = c.voucher_uses.Select(t => new { t.id, t.id_customer, t.id_voucher, t.date_used, t.customer }),
                 }).ToList();
-
-                if (data == null || !data.Any())
-                {
-                    return NotFound();
-                }
 
                 int totalItem = customerContext.TotalItem();
 
                 return Ok(new
                 {
                     status = "success",
-                    search = q,
                     currentPage = page,
                     pageSize,
                     totalItem,
-                    data = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(data, ApiContext<customer>.settings))
+                    totalPage = (int)Math.Ceiling((double)totalItem / pageSize),
+                    data
                 });
             }
             catch (Exception ex)
@@ -83,7 +76,7 @@ namespace CINEMA_BE.Controllers.Api
                 return Ok(new
                 {
                     status = "success",
-                    data = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(data, ApiContext<customer>.settings))
+                    data
                 });
             }
             catch (Exception ex)
@@ -109,7 +102,6 @@ namespace CINEMA_BE.Controllers.Api
                 {
                     status = "success",
                     message = "Customer added successfully",
-                    data = customer
                 });
             }
             catch (Exception ex)
@@ -121,18 +113,29 @@ namespace CINEMA_BE.Controllers.Api
         // PUT: api/Customers/5
         public IHttpActionResult Put(int id, [FromBody] customer customer)
         {
-            if (customer == null || customer.id != id)
-            {
-                return BadRequest("Invalid customer data.");
-            }
-
             try
             {
-                db.customers.Attach(customer);
-                db.Entry(customer).State = EntityState.Modified;
+                if (customer == null)
+                {
+                    return BadRequest("Invalid customer data.");
+                }
+
+                customer existingCus = db.customers.Find(id);
+
+                if (existingCus == null)
+                {
+                    NotFound();
+                }
+
+                existingCus.phone = customer.phone;
+                existingCus.email = customer.email;
+                existingCus.name = customer.name;
+                existingCus.rank = customer.rank;
+
+
                 db.SaveChanges();
 
-                return Ok(new { status = "success", message = "Customer updated successfully", data = customer });
+                return Ok(new { status = "success", message = "Customer updated successfully" });
 
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CINEMA_BE.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,40 +10,34 @@ namespace CINEMA_BE.Controllers.Api
 {
     public class CinemasController : ApiController
     {
-        QL_RCP_Entities db=new QL_RCP_Entities();
+        QL_RCP_Entities db = new QL_RCP_Entities();
         // GET: api/Cinemas
         public IHttpActionResult Get(string q = "", int page = 1, int pageSize = 10)
         {
             try
             {
                 ApiContext<cinema> cinemaContext = new ApiContext<cinema>(db.cinemas);
-                string search = Util.RemoveDiacritics(q);
 
-                var data = cinemaContext.Filter(c => c.name.Contains(search)).SortBy(c => c.id, false).Pagination(page, pageSize).SelectProperties(c => new
+                var data = cinemaContext.Filter(c => c.name.Contains(q)).SortBy(c => c.id, false).Pagination(page, pageSize).SelectProperties(c => new
                 {
                     c.id,
                     c.name,
                     c.address,
+                    c.city,
                     c.amount_rooms,
-                    sreenRooms= c.screen_rooms.Select(r => new { r.id, r.name ,r.amount_seats}),
-                    
+                    sreenRooms = c.screen_rooms.Select(r => new { r.id, r.name, r.amount_seats }),
                 }).ToList();
-
-                if (data == null || !data.Any())
-                {
-                    return NotFound();
-                }
 
                 int totalItem = cinemaContext.TotalItem();
 
                 return Ok(new
                 {
                     status = "success",
-                    search = q,
                     currentPage = page,
                     pageSize,
                     totalItem,
-                    data = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(data, ApiContext<cinema>.settings))
+                    totalPage = (int)Math.Ceiling((double)totalItem / pageSize),
+                    data
                 });
             }
             catch (Exception ex)
@@ -63,6 +58,7 @@ namespace CINEMA_BE.Controllers.Api
                     c.id,
                     c.name,
                     c.address,
+                    c.city,
                     c.amount_rooms,
                     sreenRooms = c.screen_rooms.Select(r => new { r.id, r.name, r.amount_seats }),
                 }).ToList();
@@ -77,7 +73,7 @@ namespace CINEMA_BE.Controllers.Api
                 return Ok(new
                 {
                     status = "success",
-                    data = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(data, ApiContext<cinema>.settings))
+                    data
                 });
             }
             catch (Exception ex)
@@ -103,8 +99,7 @@ namespace CINEMA_BE.Controllers.Api
                 return Ok(new
                 {
                     status = "success",
-                    message = "Cinema added successfully",
-                    data = cinema
+                    message = "Cinema added successfully"
                 });
             }
             catch (Exception ex)
@@ -116,18 +111,28 @@ namespace CINEMA_BE.Controllers.Api
         // PUT: api/Cinemas/5
         public IHttpActionResult Put(int id, [FromBody] cinema cinema)
         {
-            if (cinema == null || cinema.id != id)
-            {
-                return BadRequest("Invalid cinema data.");
-            }
-
             try
             {
-                db.cinemas.Attach(cinema);
-                db.Entry(cinema).State = EntityState.Modified;
+
+                if (cinema == null)
+                {
+                    return BadRequest("Invalid cinema data.");
+                }
+
+                var existingCinema = db.cinemas.Find(id);
+                if (existingCinema == null)
+                {
+                    return NotFound();
+                }
+
+                existingCinema.name = cinema.name;
+                existingCinema.address = cinema.address;
+                existingCinema.city = cinema.city;
+                existingCinema.amount_rooms = cinema.amount_rooms;
+
                 db.SaveChanges();
 
-                return Ok(new { status = "success", message = "Cinema updated successfully", data = cinema });
+                return Ok(new { status = "success", message = "Cinema updated successfully" });
 
             }
             catch (Exception ex)
@@ -135,32 +140,6 @@ namespace CINEMA_BE.Controllers.Api
                 return BadRequest($"An error occurred: {ex.Message}");
             }
 
-        }
-
-        // DELETE: api/Cinemas/5
-        public IHttpActionResult Delete(int id)
-        {
-            try
-            {
-                var cinema = db.cinemas.FirstOrDefault(c => c.id == id);
-                if (cinema == null)
-                {
-                    return NotFound();
-                }
-
-                db.cinemas.Remove(cinema);
-                db.SaveChanges();
-
-                return Ok(new
-                {
-                    status = "success",
-                    message = "Cinema deleted successfully"
-                });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
     }
 }
