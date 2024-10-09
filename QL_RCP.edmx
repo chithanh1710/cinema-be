@@ -450,10 +450,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetMoviesByType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetMovieShowtimes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="movieId" Type="int" Mode="In" />
+          <Parameter Name="cityName" Type="nvarchar" Mode="In" />
           <Parameter Name="cinemaName" Type="nvarchar" Mode="In" />
-          <Parameter Name="date" Type="date" Mode="In" />
         </Function>
         <EntityContainer Name="QuanLy_RapChieuPhimModelStoreContainer">
           <EntitySet Name="actors" EntityType="Self.actors" Schema="dbo" store:Type="Tables" />
@@ -680,9 +681,15 @@
           <EntitySet Name="sysdiagrams" EntityType="QuanLy_RapChieuPhimModel.sysdiagram" />
           <FunctionImport Name="GetMovieShowtimes" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetMovieShowtimes_Result)">
             <Parameter Name="movieId" Mode="In" Type="Int32" />
+            <Parameter Name="cityName" Mode="In" Type="String" />
             <Parameter Name="cinemaName" Mode="In" Type="String" />
-            <Parameter Name="date" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="GetMovieShowtimes1" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetMovieShowtimes1_Result)">
+            <Parameter Name="movieId" Mode="In" Type="Int32" />
+            <Parameter Name="cityName" Mode="In" Type="String" />
+            <Parameter Name="cinemaName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetMoviesByType" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetMoviesByType_Result)" />
         </EntityContainer>
         <EntityType Name="cinema">
           <Key>
@@ -1093,6 +1100,29 @@
           <Property Type="String" Name="ShowTimeStart" Nullable="true" MaxLength="4000" />
           <Property Type="String" Name="ShowTimeEnd" Nullable="true" MaxLength="4000" />
         </ComplexType>
+        <ComplexType Name="GetMovieShowtimes1_Result">
+          <Property Type="String" Name="movie_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="cinema_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="city_name" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="screen_room_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="show_time_date" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="show_time_start" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="show_time_end" Nullable="true" MaxLength="4000" />
+        </ComplexType>
+        <ComplexType Name="GetMoviesByType_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="100" />
+          <Property Type="Time" Name="duration" Nullable="true" />
+          <Property Type="String" Name="image" Nullable="true" MaxLength="300" />
+          <Property Type="Int32" Name="id_director" Nullable="true" />
+          <Property Type="String" Name="description" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="release_date" Nullable="true" />
+          <Property Type="Double" Name="star" Nullable="true" />
+          <Property Type="Int32" Name="old" Nullable="true" />
+          <Property Type="String" Name="type" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="trailer" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="thumbnail" Nullable="true" MaxLength="30" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1319,15 +1349,34 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetMovieShowtimes" FunctionName="QuanLy_RapChieuPhimModel.Store.GetMovieShowtimes">
+          <FunctionImportMapping FunctionImportName="GetMovieShowtimes1" FunctionName="QuanLy_RapChieuPhimModel.Store.GetMovieShowtimes">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="QuanLy_RapChieuPhimModel.GetMovieShowtimes_Result">
-                <ScalarProperty Name="MovieName" ColumnName="MovieName" />
-                <ScalarProperty Name="CinemaName" ColumnName="CinemaName" />
-                <ScalarProperty Name="ScreenRoomName" ColumnName="ScreenRoomName" />
-                <ScalarProperty Name="ShowTimeDate" ColumnName="ShowTimeDate" />
-                <ScalarProperty Name="ShowTimeStart" ColumnName="ShowTimeStart" />
-                <ScalarProperty Name="ShowTimeEnd" ColumnName="ShowTimeEnd" />
+              <ComplexTypeMapping TypeName="QuanLy_RapChieuPhimModel.GetMovieShowtimes1_Result">
+                <ScalarProperty Name="movie_name" ColumnName="movie_name" />
+                <ScalarProperty Name="cinema_name" ColumnName="cinema_name" />
+                <ScalarProperty Name="city_name" ColumnName="city_name" />
+                <ScalarProperty Name="screen_room_name" ColumnName="screen_room_name" />
+                <ScalarProperty Name="show_time_date" ColumnName="show_time_date" />
+                <ScalarProperty Name="show_time_start" ColumnName="show_time_start" />
+                <ScalarProperty Name="show_time_end" ColumnName="show_time_end" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetMoviesByType" FunctionName="QuanLy_RapChieuPhimModel.Store.GetMoviesByType">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLy_RapChieuPhimModel.GetMoviesByType_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="id_director" ColumnName="id_director" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="release_date" ColumnName="release_date" />
+                <ScalarProperty Name="star" ColumnName="star" />
+                <ScalarProperty Name="old" ColumnName="old" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="trailer" ColumnName="trailer" />
+                <ScalarProperty Name="thumbnail" ColumnName="thumbnail" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

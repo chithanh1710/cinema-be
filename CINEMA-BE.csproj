@@ -231,6 +231,7 @@
     <Compile Include="Controllers\Api\DirectorsController.cs" />
     <Compile Include="Controllers\Api\FoodsDrinksController.cs" />
     <Compile Include="Controllers\Api\GenresController.cs" />
+    <Compile Include="Controllers\Api\GetMoviesByTypeController.cs" />
     <Compile Include="Controllers\Api\GetMovieShowtimesController.cs" />
     <Compile Include="Controllers\Api\ProblemsController.cs" />
     <Compile Include="Controllers\Api\ScreenRoomsController.cs" />
@@ -251,6 +252,12 @@
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
     <Compile Include="genre.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetMoviesByType_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetMovieShowtimes1_Result.cs">
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
     <Compile Include="GetMovieShowtimes_Result.cs">
@@ -403,6 +410,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\GetMovieByType\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

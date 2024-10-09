@@ -47,21 +47,43 @@ namespace CINEMA_BE
         public virtual DbSet<voucher> vouchers { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     
-        public virtual ObjectResult<GetMovieShowtimes_Result> GetMovieShowtimes(Nullable<int> movieId, string cinemaName, Nullable<System.DateTime> date)
+        public virtual ObjectResult<GetMovieShowtimes_Result> GetMovieShowtimes(Nullable<int> movieId, string cityName, string cinemaName)
         {
             var movieIdParameter = movieId.HasValue ?
                 new ObjectParameter("movieId", movieId) :
                 new ObjectParameter("movieId", typeof(int));
     
+            var cityNameParameter = cityName != null ?
+                new ObjectParameter("cityName", cityName) :
+                new ObjectParameter("cityName", typeof(string));
+    
             var cinemaNameParameter = cinemaName != null ?
                 new ObjectParameter("cinemaName", cinemaName) :
                 new ObjectParameter("cinemaName", typeof(string));
     
-            var dateParameter = date.HasValue ?
-                new ObjectParameter("date", date) :
-                new ObjectParameter("date", typeof(System.DateTime));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMovieShowtimes_Result>("GetMovieShowtimes", movieIdParameter, cityNameParameter, cinemaNameParameter);
+        }
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMovieShowtimes_Result>("GetMovieShowtimes", movieIdParameter, cinemaNameParameter, dateParameter);
+        public virtual ObjectResult<GetMovieShowtimes1_Result> GetMovieShowtimes1(Nullable<int> movieId, string cityName, string cinemaName)
+        {
+            var movieIdParameter = movieId.HasValue ?
+                new ObjectParameter("movieId", movieId) :
+                new ObjectParameter("movieId", typeof(int));
+    
+            var cityNameParameter = cityName != null ?
+                new ObjectParameter("cityName", cityName) :
+                new ObjectParameter("cityName", typeof(string));
+    
+            var cinemaNameParameter = cinemaName != null ?
+                new ObjectParameter("cinemaName", cinemaName) :
+                new ObjectParameter("cinemaName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMovieShowtimes1_Result>("GetMovieShowtimes1", movieIdParameter, cityNameParameter, cinemaNameParameter);
+        }
+    
+        public virtual ObjectResult<GetMoviesByType_Result> GetMoviesByType()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMoviesByType_Result>("GetMoviesByType");
         }
     }
 }

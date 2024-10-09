@@ -18,7 +18,7 @@ namespace CINEMA_BE.Controllers.Api
             {
                 ApiContext<cinema> cinemaContext = new ApiContext<cinema>(db.cinemas);
 
-                var data = cinemaContext.Filter(c => c.name.Contains(q)).SortBy(c => c.id, false).Pagination(page, pageSize).SelectProperties(c => new
+                var data = cinemaContext.Filter(c => c.name.Contains(q)).SortBy(c => c.id, false).SelectProperties(c => new
                 {
                     c.id,
                     c.name,
