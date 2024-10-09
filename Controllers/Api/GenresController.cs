@@ -24,11 +24,6 @@ namespace CINEMA_BE.Controllers.Api
                     g.name,
                 }).ToList();
 
-                if (data == null || !data.Any())
-                {
-                    return NotFound();
-                }
-
                 int totalItem = movieContext.TotalItem();
 
                 return Ok(new
@@ -37,6 +32,7 @@ namespace CINEMA_BE.Controllers.Api
                     currentPage = page,
                     pageSize,
                     totalItem,
+                    totalPage = (int)Math.Ceiling((double)totalItem / pageSize),
                     data
                 });
             }

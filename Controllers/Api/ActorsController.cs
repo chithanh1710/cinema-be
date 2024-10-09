@@ -25,20 +25,15 @@ namespace CINEMA_BE.Controllers
                     a.name,
                 }).ToList();
 
-                if (data == null || !data.Any())
-                {
-                    return NotFound();
-                }
-
                 int totalItem = actorContext.TotalItem();
 
                 return Ok(new
                 {
                     status = "success",
-                    search = q,
                     currentPage = page,
                     pageSize,
                     totalItem,
+                    totalPage = (int)Math.Ceiling((double)totalItem / pageSize),
                     data
                 });
             }

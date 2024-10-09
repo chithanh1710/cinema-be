@@ -35,7 +35,6 @@ namespace CINEMA_BE.Controllers
                 return Ok(new
                 {
                     status = "success",
-                    search = q,
                     currentPage = page,
                     pageSize,
                     totalItem,

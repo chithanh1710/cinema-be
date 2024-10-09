@@ -81,6 +81,11 @@
           <Property Name="id_director" Type="int" />
           <Property Name="description" Type="nvarchar" MaxLength="500" />
           <Property Name="release_date" Type="date" />
+          <Property Name="star" Type="float" />
+          <Property Name="old" Type="int" />
+          <Property Name="type" Type="nvarchar" MaxLength="20" />
+          <Property Name="trailer" Type="nvarchar" MaxLength="300" />
+          <Property Name="thumbnail" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="problems">
           <Key>
@@ -444,6 +449,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetMovieShowtimes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="movieId" Type="int" Mode="In" />
+          <Parameter Name="cinemaName" Type="nvarchar" Mode="In" />
+          <Parameter Name="date" Type="date" Mode="In" />
+        </Function>
         <EntityContainer Name="QuanLy_RapChieuPhimModelStoreContainer">
           <EntitySet Name="actors" EntityType="Self.actors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="actors_movies" EntityType="Self.actors_movies" Schema="dbo" store:Type="Tables" />
@@ -667,6 +677,11 @@
             <End Role="movy" EntitySet="movies" />
           </AssociationSet>
           <EntitySet Name="sysdiagrams" EntityType="QuanLy_RapChieuPhimModel.sysdiagram" />
+          <FunctionImport Name="GetMovieShowtimes" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetMovieShowtimes_Result)">
+            <Parameter Name="movieId" Mode="In" Type="Int32" />
+            <Parameter Name="cinemaName" Mode="In" Type="String" />
+            <Parameter Name="date" Mode="In" Type="DateTime" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="cinema">
           <Key>
@@ -715,6 +730,11 @@
           <NavigationProperty Name="show_times" Relationship="QuanLy_RapChieuPhimModel.fk_show_times_movies" FromRole="movy" ToRole="show_times" />
           <NavigationProperty Name="actors" Relationship="QuanLy_RapChieuPhimModel.actors_movies" FromRole="movy" ToRole="actor" />
           <NavigationProperty Name="genres" Relationship="QuanLy_RapChieuPhimModel.genres_movies" FromRole="movy" ToRole="genre" />
+          <Property Name="star" Type="Double" />
+          <Property Name="old" Type="Int32" />
+          <Property Name="type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="trailer" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="thumbnail" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="problem">
           <Key>
@@ -1063,6 +1083,14 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
+        <ComplexType Name="GetMovieShowtimes_Result">
+          <Property Type="String" Name="MovieName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CinemaName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ScreenRoomName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ShowTimeDate" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="ShowTimeStart" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="ShowTimeEnd" Nullable="true" MaxLength="4000" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1127,6 +1155,11 @@
           <EntitySetMapping Name="movies">
             <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.movy">
               <MappingFragment StoreEntitySet="movies">
+                <ScalarProperty Name="thumbnail" ColumnName="thumbnail" />
+                <ScalarProperty Name="trailer" ColumnName="trailer" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="old" ColumnName="old" />
+                <ScalarProperty Name="star" ColumnName="star" />
                 <ScalarProperty Name="release_date" ColumnName="release_date" />
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="id_director" ColumnName="id_director" />
@@ -1283,6 +1316,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetMovieShowtimes" FunctionName="QuanLy_RapChieuPhimModel.Store.GetMovieShowtimes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLy_RapChieuPhimModel.GetMovieShowtimes_Result">
+                <ScalarProperty Name="MovieName" ColumnName="MovieName" />
+                <ScalarProperty Name="CinemaName" ColumnName="CinemaName" />
+                <ScalarProperty Name="ScreenRoomName" ColumnName="ScreenRoomName" />
+                <ScalarProperty Name="ShowTimeDate" ColumnName="ShowTimeDate" />
+                <ScalarProperty Name="ShowTimeStart" ColumnName="ShowTimeStart" />
+                <ScalarProperty Name="ShowTimeEnd" ColumnName="ShowTimeEnd" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

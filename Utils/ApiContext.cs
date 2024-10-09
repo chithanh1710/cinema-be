@@ -17,7 +17,6 @@ namespace CINEMA_BE.Utils
         }
         public int TotalItem()
         {
-            _totalItem = _query.Count();
             return _totalItem;
         }
 
@@ -26,6 +25,7 @@ namespace CINEMA_BE.Utils
             if (predicate != null)
             {
                 _query = _query.Where(predicate);
+                _totalItem = _query.Count();
             }
             return this;
         }

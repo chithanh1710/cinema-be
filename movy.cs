@@ -29,6 +29,11 @@ namespace CINEMA_BE
         public Nullable<int> id_director { get; set; }
         public string description { get; set; }
         public Nullable<System.DateTime> release_date { get; set; }
+        public Nullable<double> star { get; set; }
+        public Nullable<int> old { get; set; }
+        public string type { get; set; }
+        public string trailer { get; set; }
+        public string thumbnail { get; set; }
     
         public virtual director director { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
