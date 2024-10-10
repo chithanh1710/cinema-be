@@ -12,62 +12,64 @@ namespace CINEMA_BE.Controllers
         QL_RCP_Entities db = new QL_RCP_Entities();
 
         // GET api/tickets
-        public IHttpActionResult Get(int id, string q = "", int page = 1, int pageSize = 10)
+        [HttpGet]
+        [Route("api/tickets")]
+
+        // POST api/tickets
+        // GET api/tickets
+        public IHttpActionResult GetAllTickets(string q = "", int page = 1, int pageSize = 10)
         {
             try
             {
-                ApiContext<ticket> ticketContext = new ApiContext<ticket>(db.tickets);
+                var data = db.tickets
+                    .Include(t => t.show_times)
+                    .Include(t => t.show_times.movy)
+                    .Include(t => t.seat)
+                    .ToList(); // Tải tất cả dữ liệu vào bộ nhớ
+
+                // Chuyển đổi các ticket thành một danh sách mới với dữ liệu đã được xử lý
                 string search = Util.RemoveDiacritics(q);
 
-                var data = ticketContext.Filter(t => t.id == id).SelectProperties(t => new
-                {
-                    t.id,
-                    show_time = db.show_times.FirstOrDefault(st => st.id == t.id_show_time), // Adjust for foreign key relation
-                    t.seat
-                }).ToList();
+                var filteredData = data
+                    .Where(t => string.IsNullOrEmpty(q) ||
+                        Util.RemoveDiacritics(t.show_times.movy.name).Contains(search))
+                    .Select(t => new
+                    {
+                        t.id,
+                        ShowTime = new
+                        {
+                            t.show_times.id,
+                            t.show_times.time_start,
+                            t.show_times.time_end,
+                            MovieName = t.show_times.movy.name
+                        },
+                        Seat = new
+                        {
+                            t.seat.id,
+                            t.seat.number_of_row,
+                            t.seat.number_of_column,
+                            t.seat.genre_seats
+                        }
+                    })
+                    .OrderBy(t => t.id)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
 
-                if (data == null || !data.Any())
-                {
-                    return NotFound();
-                }
-
-                int totalItem = ticketContext.TotalItem();
-
-                return Ok(new
-                {
-                    status = "success",
-                    data = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(data)) // Without custom settings
-                });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        // GET api/tickets/5
-        public IHttpActionResult Get(int id)
-        {
-            try
-            {
-                ApiContext<ticket> ticketContext = new ApiContext<ticket>(db.tickets);
-
-                var data = ticketContext.Filter(t => t.id == id).SelectProperties(t => new
-                {
-                    t.id,
-                    show_time = db.show_times.FirstOrDefault(st => st.id == t.id_show_time), // Adjust for foreign key relation
-                    t.seat
-                }).ToList();
-
-                if (data == null || !data.Any())
+                if (filteredData == null || !filteredData.Any())
                 {
                     return NotFound();
                 }
 
+                int totalItem = db.tickets.Count();
+
                 return Ok(new
                 {
                     status = "success",
-                    data = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(data)) // Without custom settings
+                    data = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(filteredData)),
+                    totalItems = totalItem,
+                    page = page,
+                    pageSize = pageSize
                 });
             }
             catch (Exception ex)
@@ -102,6 +104,8 @@ namespace CINEMA_BE.Controllers
         }
 
         // PUT api/tickets/5
+        [HttpPut]
+        [Route("api/tickets/{id}")]
         public IHttpActionResult Put(int id, [FromBody] ticket updatedTicket)
         {
             if (updatedTicket == null || updatedTicket.id != id)
@@ -137,6 +141,8 @@ namespace CINEMA_BE.Controllers
         }
 
         // DELETE api/tickets/5
+        [HttpDelete]
+        [Route("api/tickets/{id}")]
         public IHttpActionResult Delete(int id)
         {
             try
