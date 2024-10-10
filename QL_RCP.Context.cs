@@ -40,12 +40,12 @@ namespace CINEMA_BE
         public virtual DbSet<seat> seats { get; set; }
         public virtual DbSet<show_times> show_times { get; set; }
         public virtual DbSet<staff> staffs { get; set; }
-        public virtual DbSet<ticket> tickets { get; set; }
         public virtual DbSet<transaction> transactions { get; set; }
         public virtual DbSet<transactions_foods_drinks> transactions_foods_drinks { get; set; }
         public virtual DbSet<voucher_uses> voucher_uses { get; set; }
         public virtual DbSet<voucher> vouchers { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<ticket> tickets { get; set; }
     
         public virtual ObjectResult<GetMovieShowtimes_Result> GetMovieShowtimes(Nullable<int> movieId, string cityName, string cinemaName)
         {

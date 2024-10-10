@@ -30,8 +30,8 @@ namespace CINEMA_BE
     
         public virtual customer customer { get; set; }
         public virtual staff staff { get; set; }
-        public virtual ticket ticket { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<transactions_foods_drinks> transactions_foods_drinks { get; set; }
+        public virtual ticket ticket { get; set; }
     }
 }

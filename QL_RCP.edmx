@@ -165,7 +165,6 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_show_time" Type="int" />
           <Property Name="id_seat" Type="int" />
-          <Property Name="price" Type="decimal" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="transactions">
           <Key>
@@ -601,7 +600,6 @@
           <EntitySet Name="seats" EntityType="QuanLy_RapChieuPhimModel.seat" />
           <EntitySet Name="show_times" EntityType="QuanLy_RapChieuPhimModel.show_times" />
           <EntitySet Name="staffs" EntityType="QuanLy_RapChieuPhimModel.staff" />
-          <EntitySet Name="tickets" EntityType="QuanLy_RapChieuPhimModel.ticket" />
           <EntitySet Name="transactions" EntityType="QuanLy_RapChieuPhimModel.transaction" />
           <EntitySet Name="transactions_foods_drinks" EntityType="QuanLy_RapChieuPhimModel.transactions_foods_drinks" />
           <EntitySet Name="voucher_uses" EntityType="QuanLy_RapChieuPhimModel.voucher_uses" />
@@ -646,20 +644,8 @@
             <End Role="seat" EntitySet="seats" />
             <End Role="screen_rooms_seats" EntitySet="screen_rooms_seats" />
           </AssociationSet>
-          <AssociationSet Name="fk_tickets_seats" Association="QuanLy_RapChieuPhimModel.fk_tickets_seats">
-            <End Role="seat" EntitySet="seats" />
-            <End Role="ticket" EntitySet="tickets" />
-          </AssociationSet>
-          <AssociationSet Name="fk_tickets_show_times" Association="QuanLy_RapChieuPhimModel.fk_tickets_show_times">
-            <End Role="show_times" EntitySet="show_times" />
-            <End Role="ticket" EntitySet="tickets" />
-          </AssociationSet>
           <AssociationSet Name="fk_transactions_staff" Association="QuanLy_RapChieuPhimModel.fk_transactions_staff">
             <End Role="staff" EntitySet="staffs" />
-            <End Role="transaction" EntitySet="transactions" />
-          </AssociationSet>
-          <AssociationSet Name="fk_transactions_tickets" Association="QuanLy_RapChieuPhimModel.fk_transactions_tickets">
-            <End Role="ticket" EntitySet="tickets" />
             <End Role="transaction" EntitySet="transactions" />
           </AssociationSet>
           <AssociationSet Name="fk_transactions_foods_drinks_transactions" Association="QuanLy_RapChieuPhimModel.fk_transactions_foods_drinks_transactions">
@@ -690,6 +676,19 @@
             <Parameter Name="cinemaName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetMoviesByType" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetMoviesByType_Result)" />
+          <EntitySet Name="tickets" EntityType="QuanLy_RapChieuPhimModel.ticket" />
+          <AssociationSet Name="fk_tickets_seats" Association="QuanLy_RapChieuPhimModel.fk_tickets_seats">
+            <End Role="seat" EntitySet="seats" />
+            <End Role="ticket" EntitySet="tickets" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tickets_show_times" Association="QuanLy_RapChieuPhimModel.fk_tickets_show_times">
+            <End Role="show_times" EntitySet="show_times" />
+            <End Role="ticket" EntitySet="tickets" />
+          </AssociationSet>
+          <AssociationSet Name="fk_transactions_tickets" Association="QuanLy_RapChieuPhimModel.fk_transactions_tickets">
+            <End Role="ticket" EntitySet="tickets" />
+            <End Role="transaction" EntitySet="transactions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="cinema">
           <Key>
@@ -818,18 +817,6 @@
           <NavigationProperty Name="problems" Relationship="QuanLy_RapChieuPhimModel.fk_problems_staff" FromRole="staff" ToRole="problem" />
           <NavigationProperty Name="transactions" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_staff" FromRole="staff" ToRole="transaction" />
         </EntityType>
-        <EntityType Name="ticket">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_show_time" Type="Int32" />
-          <Property Name="id_seat" Type="Int32" />
-          <Property Name="price" Type="Decimal" Precision="10" Scale="2" />
-          <NavigationProperty Name="seat" Relationship="QuanLy_RapChieuPhimModel.fk_tickets_seats" FromRole="ticket" ToRole="seat" />
-          <NavigationProperty Name="show_times" Relationship="QuanLy_RapChieuPhimModel.fk_tickets_show_times" FromRole="ticket" ToRole="show_times" />
-          <NavigationProperty Name="transactions" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_tickets" FromRole="ticket" ToRole="transaction" />
-        </EntityType>
         <EntityType Name="transaction">
           <Key>
             <PropertyRef Name="id" />
@@ -843,8 +830,8 @@
           <Property Name="type_transaction" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="customer" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_customers" FromRole="transaction" ToRole="customer" />
           <NavigationProperty Name="staff" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_staff" FromRole="transaction" ToRole="staff" />
-          <NavigationProperty Name="ticket" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_tickets" FromRole="transaction" ToRole="ticket" />
           <NavigationProperty Name="transactions_foods_drinks" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_foods_drinks_transactions" FromRole="transaction" ToRole="transactions_foods_drinks" />
+          <NavigationProperty Name="ticket" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_tickets" FromRole="transaction" ToRole="ticket" />
         </EntityType>
         <EntityType Name="transactions_foods_drinks">
           <Key>
@@ -1002,30 +989,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_tickets_seats">
-          <End Type="QuanLy_RapChieuPhimModel.seat" Role="seat" Multiplicity="0..1" />
-          <End Type="QuanLy_RapChieuPhimModel.ticket" Role="ticket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="seat">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ticket">
-              <PropertyRef Name="id_seat" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_tickets_show_times">
-          <End Type="QuanLy_RapChieuPhimModel.show_times" Role="show_times" Multiplicity="0..1" />
-          <End Type="QuanLy_RapChieuPhimModel.ticket" Role="ticket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="show_times">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ticket">
-              <PropertyRef Name="id_show_time" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_transactions_staff">
           <End Type="QuanLy_RapChieuPhimModel.staff" Role="staff" Multiplicity="0..1" />
           <End Type="QuanLy_RapChieuPhimModel.transaction" Role="transaction" Multiplicity="*" />
@@ -1035,18 +998,6 @@
             </Principal>
             <Dependent Role="transaction">
               <PropertyRef Name="id_staff" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_transactions_tickets">
-          <End Type="QuanLy_RapChieuPhimModel.ticket" Role="ticket" Multiplicity="0..1" />
-          <End Type="QuanLy_RapChieuPhimModel.transaction" Role="transaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ticket">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="transaction">
-              <PropertyRef Name="id_ticket" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1123,6 +1074,53 @@
           <Property Type="String" Name="trailer" Nullable="true" MaxLength="300" />
           <Property Type="String" Name="thumbnail" Nullable="true" MaxLength="30" />
         </ComplexType>
+        <EntityType Name="ticket">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_show_time" Type="Int32" />
+          <Property Name="id_seat" Type="Int32" />
+          <NavigationProperty Name="seat" Relationship="QuanLy_RapChieuPhimModel.fk_tickets_seats" FromRole="ticket" ToRole="seat" />
+          <NavigationProperty Name="show_times" Relationship="QuanLy_RapChieuPhimModel.fk_tickets_show_times" FromRole="ticket" ToRole="show_times" />
+          <NavigationProperty Name="transactions" Relationship="QuanLy_RapChieuPhimModel.fk_transactions_tickets" FromRole="ticket" ToRole="transaction" />
+        </EntityType>
+        <Association Name="fk_tickets_seats">
+          <End Type="QuanLy_RapChieuPhimModel.seat" Role="seat" Multiplicity="0..1" />
+          <End Type="QuanLy_RapChieuPhimModel.ticket" Role="ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seat">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ticket">
+              <PropertyRef Name="id_seat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tickets_show_times">
+          <End Type="QuanLy_RapChieuPhimModel.show_times" Role="show_times" Multiplicity="0..1" />
+          <End Type="QuanLy_RapChieuPhimModel.ticket" Role="ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="show_times">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ticket">
+              <PropertyRef Name="id_show_time" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_transactions_tickets">
+          <End Type="QuanLy_RapChieuPhimModel.ticket" Role="ticket" Multiplicity="0..1" />
+          <End Type="QuanLy_RapChieuPhimModel.transaction" Role="transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ticket">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transaction">
+              <PropertyRef Name="id_ticket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1268,16 +1266,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tickets">
-            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.ticket">
-              <MappingFragment StoreEntitySet="tickets">
-                <ScalarProperty Name="price" ColumnName="price" />
-                <ScalarProperty Name="id_seat" ColumnName="id_seat" />
-                <ScalarProperty Name="id_show_time" ColumnName="id_show_time" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="transactions">
             <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.transaction">
               <MappingFragment StoreEntitySet="transactions">
@@ -1380,6 +1368,15 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tickets">
+            <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.ticket">
+              <MappingFragment StoreEntitySet="tickets">
+                <ScalarProperty Name="id_seat" ColumnName="id_seat" />
+                <ScalarProperty Name="id_show_time" ColumnName="id_show_time" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

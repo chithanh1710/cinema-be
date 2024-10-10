@@ -23,7 +23,6 @@ namespace CINEMA_BE
         public int id { get; set; }
         public Nullable<int> id_show_time { get; set; }
         public Nullable<int> id_seat { get; set; }
-        public Nullable<decimal> price { get; set; }
     
         public virtual seat seat { get; set; }
         public virtual show_times show_times { get; set; }
