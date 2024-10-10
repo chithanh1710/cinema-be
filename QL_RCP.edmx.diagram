@@ -15,13 +15,13 @@
         <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.problem" Width="1.5" PointX="7.875" PointY="14.625" />
         <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.screen_rooms" Width="1.5" PointX="1.125" PointY="10.625" />
         <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.screen_rooms_seats" Width="1.5" PointX="5.625" PointY="7.75" />
-        <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.seat" Width="1.5" PointX="3.375" PointY="7.625" />
-        <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.show_times" Width="1.5" PointX="3.375" PointY="12.5" />
+        <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.seat" Width="1.5" PointX="8.5" PointY="8" />
+        <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.show_times" Width="1.5" PointX="9.75" PointY="11.75" />
         <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.staff" Width="1.5" PointX="5.625" PointY="1" />
         <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.transaction" Width="1.5" PointX="7.875" PointY="4.125" />
         <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.transactions_foods_drinks" Width="1.5" PointX="10.125" PointY="4.75" />
         <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.voucher_uses" Width="1.5" PointX="7.875" PointY="11.25" />
-        <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.voucher" Width="1.5" PointX="5.625" PointY="15.125" />
+        <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.voucher" Width="1.5" PointX="12.75" PointY="10.5" />
         <AssociationConnector Association="QuanLy_RapChieuPhimModel.fk_screen_rooms" />
         <AssociationConnector Association="QuanLy_RapChieuPhimModel.fk_transactions_customers" />
         <AssociationConnector Association="QuanLy_RapChieuPhimModel.fk_voucher_uses_customer" />
@@ -38,7 +38,7 @@
         <AssociationConnector Association="QuanLy_RapChieuPhimModel.actors_movies" />
         <AssociationConnector Association="QuanLy_RapChieuPhimModel.genres_movies" />
         <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.sysdiagram" Width="1.5" PointX="10.375" PointY="0.75" />
-        <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.ticket" Width="1.5" PointX="8.625" PointY="8.25" />
+        <EntityTypeShape EntityType="QuanLy_RapChieuPhimModel.ticket" Width="1.5" PointX="11.25" PointY="8" />
         <AssociationConnector Association="QuanLy_RapChieuPhimModel.fk_tickets_seats" />
         <AssociationConnector Association="QuanLy_RapChieuPhimModel.fk_tickets_show_times" />
         <AssociationConnector Association="QuanLy_RapChieuPhimModel.fk_transactions_tickets" />
