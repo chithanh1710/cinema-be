@@ -18,30 +18,37 @@ namespace CINEMA_BE.Controllers
     {
         QL_RCP_Entities db = new QL_RCP_Entities();
         // GET api/movies
-        public IHttpActionResult Get(string q = "",int page = 1,int pageSize = 10,string type = "")
+        public IHttpActionResult Get(string q = "",int page = 1,int pageSize = 10,string type = "",string cinemaName = "")
         {
             string typeQuery = type == "showing" ? "ĐANG CHIẾU" : type == "upcoming" ? "SẮP CHIẾU" : "";
             try
             {
                 ApiContext<movy> movieContext = new ApiContext<movy>(db.movies);
 
-                var data = movieContext.Filter(m => m.name.Contains(q) && m.type.Contains(typeQuery)).SortBy(m => m.id, false).Pagination(page, pageSize).SelectProperties(m => new
-                {
-                    m.id,
-                    m.name,
-                    m.duration,
-                    m.description,
-                    m.star,
-                    m.old,
-                    m.type,
-                    m.trailer,
-                    m.thumbnail,
-                    genres = m.genres.Select(g => g.name ),
-                    actors = m.actors.Select(a => a.name),
-                    director = new { m.director.id, m.director.name },
-                    m.image,
-                    m.release_date
-                }).ToList();
+                var data = movieContext
+                    .Filter(m => m.name.Contains(q)
+                        && (string.IsNullOrEmpty(typeQuery) || m.type.Equals(typeQuery))
+                        && (string.IsNullOrEmpty(cinemaName) || m.show_times.Any(s => s.screen_rooms.cinema.name.Equals(cinemaName))))
+                    .SortBy(m => m.id, false)
+                    .Pagination(page, pageSize)
+                    .SelectProperties(m => new
+                    {
+                        m.id,
+                        m.name,
+                        m.duration,
+                        m.description,
+                        m.star,
+                        m.old,
+                        m.type,
+                        m.trailer,
+                        m.thumbnail,
+                        show_times = m.show_times.Select(sh => new { sh.time_start,cinemaName = sh.screen_rooms.cinema.name }),
+                        genres = m.genres.Select(g => g.name),
+                        actors = m.actors.Select(a => a.name),
+                        director = new { m.director.id, m.director.name },
+                        m.image,
+                        m.release_date
+                    }).ToList();
 
                 int totalItem = movieContext.TotalItem();
 

@@ -85,5 +85,63 @@ namespace CINEMA_BE
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMoviesByType_Result>("GetMoviesByType");
         }
+    
+        [DbFunction("QL_RCP_Entities", "GetAvailableDates")]
+        public virtual IQueryable<Nullable<System.DateTime>> GetAvailableDates(Nullable<int> movieId, Nullable<int> cinemaId)
+        {
+            var movieIdParameter = movieId.HasValue ?
+                new ObjectParameter("movieId", movieId) :
+                new ObjectParameter("movieId", typeof(int));
+    
+            var cinemaIdParameter = cinemaId.HasValue ?
+                new ObjectParameter("cinemaId", cinemaId) :
+                new ObjectParameter("cinemaId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<Nullable<System.DateTime>>("[QL_RCP_Entities].[GetAvailableDates](@movieId, @cinemaId)", movieIdParameter, cinemaIdParameter);
+        }
+    
+        [DbFunction("QL_RCP_Entities", "GetAvailableMovies")]
+        public virtual IQueryable<GetAvailableMovies_Result> GetAvailableMovies()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetAvailableMovies_Result>("[QL_RCP_Entities].[GetAvailableMovies]()");
+        }
+    
+        [DbFunction("QL_RCP_Entities", "GetAvailableShowtimes")]
+        public virtual IQueryable<GetAvailableShowtimes_Result> GetAvailableShowtimes(Nullable<int> movieId, Nullable<int> cinemaId, Nullable<System.DateTime> showDate)
+        {
+            var movieIdParameter = movieId.HasValue ?
+                new ObjectParameter("movieId", movieId) :
+                new ObjectParameter("movieId", typeof(int));
+    
+            var cinemaIdParameter = cinemaId.HasValue ?
+                new ObjectParameter("cinemaId", cinemaId) :
+                new ObjectParameter("cinemaId", typeof(int));
+    
+            var showDateParameter = showDate.HasValue ?
+                new ObjectParameter("showDate", showDate) :
+                new ObjectParameter("showDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetAvailableShowtimes_Result>("[QL_RCP_Entities].[GetAvailableShowtimes](@movieId, @cinemaId, @showDate)", movieIdParameter, cinemaIdParameter, showDateParameter);
+        }
+    
+        [DbFunction("QL_RCP_Entities", "GetCinemasByMovie")]
+        public virtual IQueryable<GetCinemasByMovie_Result> GetCinemasByMovie(Nullable<int> movieId)
+        {
+            var movieIdParameter = movieId.HasValue ?
+                new ObjectParameter("movieId", movieId) :
+                new ObjectParameter("movieId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetCinemasByMovie_Result>("[QL_RCP_Entities].[GetCinemasByMovie](@movieId)", movieIdParameter);
+        }
+    
+        [DbFunction("QL_RCP_Entities", "GetCinemasByMovie1")]
+        public virtual IQueryable<GetCinemasByMovie1_Result> GetCinemasByMovie1(Nullable<int> movieId)
+        {
+            var movieIdParameter = movieId.HasValue ?
+                new ObjectParameter("movieId", movieId) :
+                new ObjectParameter("movieId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetCinemasByMovie1_Result>("[QL_RCP_Entities].[GetCinemasByMovie1](@movieId)", movieIdParameter);
+        }
     }
 }

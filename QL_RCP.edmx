@@ -449,6 +449,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetAvailableDates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="movieId" Type="int" Mode="In" />
+          <Parameter Name="cinemaId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="show_date" Type="date" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetAvailableMovies" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="id" Type="int" Nullable="false" />
+                <Property Name="name" Type="nvarchar" MaxLength="100" />
+                <Property Name="type" Type="nvarchar" MaxLength="20" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetAvailableShowtimes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="movieId" Type="int" Mode="In" />
+          <Parameter Name="cinemaId" Type="int" Mode="In" />
+          <Parameter Name="showDate" Type="date" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="id" Type="int" Nullable="false" />
+                <Property Name="time_start" Type="datetime" />
+                <Property Name="time_end" Type="datetime" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetCinemasByMovie" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="movieId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="id" Type="int" Nullable="false" />
+                <Property Name="name" Type="nvarchar" MaxLength="100" />
+                <Property Name="city" Type="nvarchar" MaxLength="30" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="GetMoviesByType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetMovieShowtimes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="movieId" Type="int" Mode="In" />
@@ -689,6 +737,22 @@
             <End Role="ticket" EntitySet="tickets" />
             <End Role="transaction" EntitySet="transactions" />
           </AssociationSet>
+          <FunctionImport Name="GetAvailableDates" IsComposable="true" ReturnType="Collection(DateTime)">
+            <Parameter Name="movieId" Mode="In" Type="Int32" />
+            <Parameter Name="cinemaId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetAvailableMovies" IsComposable="true" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetAvailableMovies_Result)" />
+          <FunctionImport Name="GetAvailableShowtimes" IsComposable="true" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetAvailableShowtimes_Result)">
+            <Parameter Name="movieId" Mode="In" Type="Int32" />
+            <Parameter Name="cinemaId" Mode="In" Type="Int32" />
+            <Parameter Name="showDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetCinemasByMovie" IsComposable="true" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetCinemasByMovie_Result)">
+          <Parameter Name="movieId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetCinemasByMovie1" IsComposable="true" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetCinemasByMovie1_Result)">
+            <Parameter Name="movieId" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="cinema">
           <Key>
@@ -1121,6 +1185,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="GetAvailableMovies_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="type" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="GetAvailableShowtimes_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="DateTime" Name="time_start" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="time_end" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="GetCinemasByMovie_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="GetCinemasByMovie1_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="city" Nullable="true" MaxLength="30" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1377,6 +1460,34 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetAvailableDates" FunctionName="QuanLy_RapChieuPhimModel.Store.GetAvailableDates" />
+          <FunctionImportMapping FunctionImportName="GetAvailableMovies" FunctionName="QuanLy_RapChieuPhimModel.Store.GetAvailableMovies">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLy_RapChieuPhimModel.GetAvailableMovies_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAvailableShowtimes" FunctionName="QuanLy_RapChieuPhimModel.Store.GetAvailableShowtimes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLy_RapChieuPhimModel.GetAvailableShowtimes_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="time_start" ColumnName="time_start" />
+                <ScalarProperty Name="time_end" ColumnName="time_end" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCinemasByMovie1" FunctionName="QuanLy_RapChieuPhimModel.Store.GetCinemasByMovie">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLy_RapChieuPhimModel.GetCinemasByMovie1_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="city" ColumnName="city" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -231,8 +231,12 @@
     <Compile Include="Controllers\Api\DirectorsController.cs" />
     <Compile Include="Controllers\Api\FoodsDrinksController.cs" />
     <Compile Include="Controllers\Api\GenresController.cs" />
-    <Compile Include="Controllers\Api\GetMoviesByTypeController.cs" />
-    <Compile Include="Controllers\Api\GetMovieShowtimesController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetAvailableDatesController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetAvailableMoviesController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetAvailableShowtimesController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetCinemasByMovieController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\SP\GetMoviesByTypeController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\SP\GetMovieShowtimesController.cs" />
     <Compile Include="Controllers\Api\ProblemsController.cs" />
     <Compile Include="Controllers\Api\ScreenRoomsController.cs" />
     <Compile Include="Controllers\Api\ShowTimesController.cs" />
@@ -252,6 +256,18 @@
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
     <Compile Include="genre.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetAvailableMovies_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetAvailableShowtimes_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetCinemasByMovie1_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetCinemasByMovie_Result.cs">
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
     <Compile Include="GetMoviesByType_Result.cs">
@@ -386,6 +402,7 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include=".env" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

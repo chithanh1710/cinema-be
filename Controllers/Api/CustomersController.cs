@@ -85,6 +85,44 @@ namespace CINEMA_BE.Controllers.Api
             }
         }
 
+        // GET: api/Customers?email={email}
+        public IHttpActionResult Get(string email)
+        {
+            try
+            {
+                ApiContext<customer> customerContext = new ApiContext<customer>(db.customers);
+
+                var data = customerContext.Filter(c => c.email.Equals(email)).SelectProperties(c => new
+                {
+                    c.id,
+                    c.name,
+                    c.email,
+                    c.phone,
+                    c.rank,
+                    transaction = c.transactions.Select(t => new { t.id, t.id_ticket, t.id_staff, t.total_amount, t.time_transaction, t.type_transaction }),
+                    voucher_uses = c.voucher_uses.Select(t => new { t.id, t.id_customer, t.id_voucher, t.date_used, t.customer }),
+
+                }).ToList();
+
+                if (data == null || !data.Any())
+                {
+                    return NotFound();
+                }
+
+                int totalItem = customerContext.TotalItem();
+
+                return Ok(new
+                {
+                    status = "success",
+                    data
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         // POST: api/Customers
         public IHttpActionResult Post([FromBody] customer customer)
         {
