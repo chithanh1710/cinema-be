@@ -24,6 +24,8 @@ namespace CINEMA_BE
         public string name { get; set; }
         public Nullable<decimal> price { get; set; }
         public string category { get; set; }
+        public Nullable<int> stock_quantity { get; set; }
+        public string image_url { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<transactions_foods_drinks> transactions_foods_drinks { get; set; }

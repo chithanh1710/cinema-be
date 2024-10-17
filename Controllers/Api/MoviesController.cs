@@ -42,7 +42,7 @@ namespace CINEMA_BE.Controllers
                         m.type,
                         m.trailer,
                         m.thumbnail,
-                        show_times = m.show_times.Select(sh => new { sh.time_start,cinemaName = sh.screen_rooms.cinema.name }),
+                        show_times = m.show_times.Select(sh => new { sh.time_start,cinemaName = sh.screen_rooms.cinema.name,sh.id }),
                         genres = m.genres.Select(g => g.name),
                         actors = m.actors.Select(a => a.name),
                         director = new { m.director.id, m.director.name },

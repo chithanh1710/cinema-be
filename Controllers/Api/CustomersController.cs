@@ -10,7 +10,6 @@ namespace CINEMA_BE.Controllers.Api
 {
     public class CustomersController : ApiController
     {
-        // GET: api/Customers
         QL_RCP_Entities db=new QL_RCP_Entities();
         
         // GET: api/Customers

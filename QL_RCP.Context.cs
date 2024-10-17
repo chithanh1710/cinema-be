@@ -36,7 +36,6 @@ namespace CINEMA_BE
         public virtual DbSet<movy> movies { get; set; }
         public virtual DbSet<problem> problems { get; set; }
         public virtual DbSet<screen_rooms> screen_rooms { get; set; }
-        public virtual DbSet<screen_rooms_seats> screen_rooms_seats { get; set; }
         public virtual DbSet<seat> seats { get; set; }
         public virtual DbSet<show_times> show_times { get; set; }
         public virtual DbSet<staff> staffs { get; set; }
@@ -46,6 +45,7 @@ namespace CINEMA_BE
         public virtual DbSet<voucher> vouchers { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<ticket> tickets { get; set; }
+        public virtual DbSet<screen_rooms_seats> screen_rooms_seats { get; set; }
     
         public virtual ObjectResult<GetMovieShowtimes_Result> GetMovieShowtimes(Nullable<int> movieId, string cityName, string cinemaName)
         {
@@ -142,6 +142,87 @@ namespace CINEMA_BE
                 new ObjectParameter("movieId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetCinemasByMovie1_Result>("[QL_RCP_Entities].[GetCinemasByMovie1](@movieId)", movieIdParameter);
+        }
+    
+        public virtual int HoldSeatAndCreateTicket(Nullable<int> showtimeId, Nullable<int> seatId, Nullable<int> customerId)
+        {
+            var showtimeIdParameter = showtimeId.HasValue ?
+                new ObjectParameter("ShowtimeId", showtimeId) :
+                new ObjectParameter("ShowtimeId", typeof(int));
+    
+            var seatIdParameter = seatId.HasValue ?
+                new ObjectParameter("SeatId", seatId) :
+                new ObjectParameter("SeatId", typeof(int));
+    
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("HoldSeatAndCreateTicket", showtimeIdParameter, seatIdParameter, customerIdParameter);
+        }
+    
+        public virtual int UnholdSeatAndDeleteTicket(Nullable<int> showtimeId, Nullable<int> seatId, Nullable<int> customerId)
+        {
+            var showtimeIdParameter = showtimeId.HasValue ?
+                new ObjectParameter("ShowtimeId", showtimeId) :
+                new ObjectParameter("ShowtimeId", typeof(int));
+    
+            var seatIdParameter = seatId.HasValue ?
+                new ObjectParameter("SeatId", seatId) :
+                new ObjectParameter("SeatId", typeof(int));
+    
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UnholdSeatAndDeleteTicket", showtimeIdParameter, seatIdParameter, customerIdParameter);
+        }
+    
+        public virtual int AddFoodDrinkTransaction(Nullable<int> transactionId, Nullable<int> foodDrinkId, Nullable<int> quantity)
+        {
+            var transactionIdParameter = transactionId.HasValue ?
+                new ObjectParameter("TransactionId", transactionId) :
+                new ObjectParameter("TransactionId", typeof(int));
+    
+            var foodDrinkIdParameter = foodDrinkId.HasValue ?
+                new ObjectParameter("FoodDrinkId", foodDrinkId) :
+                new ObjectParameter("FoodDrinkId", typeof(int));
+    
+            var quantityParameter = quantity.HasValue ?
+                new ObjectParameter("Quantity", quantity) :
+                new ObjectParameter("Quantity", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddFoodDrinkTransaction", transactionIdParameter, foodDrinkIdParameter, quantityParameter);
+        }
+    
+        [DbFunction("QL_RCP_Entities", "GetTransactionDetailsByCustomerId")]
+        public virtual IQueryable<GetTransactionDetailsByCustomerId_Result> GetTransactionDetailsByCustomerId(Nullable<int> customerId)
+        {
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetTransactionDetailsByCustomerId_Result>("[QL_RCP_Entities].[GetTransactionDetailsByCustomerId](@CustomerId)", customerIdParameter);
+        }
+    
+        [DbFunction("QL_RCP_Entities", "GetTransactionDetailsByCustomerId1")]
+        public virtual IQueryable<GetTransactionDetailsByCustomerId1_Result> GetTransactionDetailsByCustomerId1(Nullable<int> customerId)
+        {
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetTransactionDetailsByCustomerId1_Result>("[QL_RCP_Entities].[GetTransactionDetailsByCustomerId1](@CustomerId)", customerIdParameter);
+        }
+    
+        [DbFunction("QL_RCP_Entities", "GetTransactionDetailsByCustomerId2")]
+        public virtual IQueryable<GetTransactionDetailsByCustomerId2_Result> GetTransactionDetailsByCustomerId2(Nullable<int> customerId)
+        {
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetTransactionDetailsByCustomerId2_Result>("[QL_RCP_Entities].[GetTransactionDetailsByCustomerId2](@CustomerId)", customerIdParameter);
         }
     }
 }

@@ -17,18 +17,19 @@ namespace CINEMA_BE
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public seat()
         {
-            this.screen_rooms_seats = new HashSet<screen_rooms_seats>();
             this.tickets = new HashSet<ticket>();
+            this.screen_rooms_seats = new HashSet<screen_rooms_seats>();
         }
     
         public int id { get; set; }
         public Nullable<int> number_of_column { get; set; }
         public string number_of_row { get; set; }
         public string genre_seats { get; set; }
+        public Nullable<decimal> price { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<screen_rooms_seats> screen_rooms_seats { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ticket> tickets { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<screen_rooms_seats> screen_rooms_seats { get; set; }
     }
 }

@@ -231,16 +231,23 @@
     <Compile Include="Controllers\Api\DirectorsController.cs" />
     <Compile Include="Controllers\Api\FoodsDrinksController.cs" />
     <Compile Include="Controllers\Api\GenresController.cs" />
+    <Compile Include="Controllers\Api\Seats\BookSeatsController.cs" />
+    <Compile Include="Controllers\Api\Seats\GetSeatsByShowtimeController.cs" />
+    <Compile Include="Controllers\Api\Seats\HoldSeatController.cs" />
+    <Compile Include="Controllers\Api\Seats\UnHoldSeatController.cs" />
     <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetAvailableDatesController.cs" />
     <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetAvailableMoviesController.cs" />
     <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetAvailableShowtimesController.cs" />
     <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetCinemasByMovieController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetTransactionDetailsByCustomerIdController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\SP\AddFoodDrinkTransactionController.cs" />
     <Compile Include="Controllers\Api\StoredProceduresAndFunctions\SP\GetMoviesByTypeController.cs" />
     <Compile Include="Controllers\Api\StoredProceduresAndFunctions\SP\GetMovieShowtimesController.cs" />
     <Compile Include="Controllers\Api\ProblemsController.cs" />
     <Compile Include="Controllers\Api\ScreenRoomsController.cs" />
     <Compile Include="Controllers\Api\ShowTimesController.cs" />
     <Compile Include="Controllers\Api\StaffsController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\SP\ResetFoodDrinkTransactionController.cs" />
     <Compile Include="Controllers\Api\TicketsController.cs" />
     <Compile Include="Controllers\Api\TransactionsController.cs" />
     <Compile Include="Controllers\Api\VouchersController.cs" />
@@ -277,6 +284,15 @@
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
     <Compile Include="GetMovieShowtimes_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetTransactionDetailsByCustomerId1_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetTransactionDetailsByCustomerId2_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetTransactionDetailsByCustomerId_Result.cs">
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
@@ -426,7 +442,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\BookSeats\" />
     <Folder Include="Views\GetMovieByType\" />
+    <Folder Include="Views\UnHoldSeat\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

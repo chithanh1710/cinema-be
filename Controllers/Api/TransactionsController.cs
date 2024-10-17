@@ -118,35 +118,30 @@ namespace CINEMA_BE.Controllers.Api
         }
 
         // PUT: api/transactions/5
-        public IHttpActionResult Put(int id, [FromBody] transaction updatedTransaction)
+        public IHttpActionResult Put(int id)
         {
             try
             {
-                if (updatedTransaction == null)
+                // Tìm tất cả các giao dịch với customerId cụ thể
+                var transactions = db.transactions.Where(t => t.id_customer == id && t.time_transaction == null).ToList();
+
+                if (transactions.Count == 0)
                 {
-                    return BadRequest("Transaction data cannot be null");
+                    return NotFound(); // Không tìm thấy giao dịch nào với customerId này
                 }
 
-                var existingTransaction = db.transactions.FirstOrDefault(t => t.id == id);
-                if (existingTransaction == null)
+                // Cập nhật time_transaction cho tất cả các giao dịch
+                foreach (var transaction in transactions)
                 {
-                    return NotFound();
+                    transaction.time_transaction = DateTime.Now; // Đặt thời gian hiện tại
                 }
-
-                // Cập nhật thông tin giao dịch
-                existingTransaction.id_customer = updatedTransaction.id_customer;
-                existingTransaction.id_ticket = updatedTransaction.id_ticket;
-                existingTransaction.id_staff = updatedTransaction.id_staff;
-                existingTransaction.total_amount = updatedTransaction.total_amount;
-                existingTransaction.time_transaction = updatedTransaction.time_transaction;
-                existingTransaction.type_transaction = updatedTransaction.type_transaction;
 
                 db.SaveChanges();
 
                 return Ok(new
                 {
                     status = "success",
-                    message = "Transaction updated successfully"
+                    message = $"Updated {transactions.Count} transactions' time_transaction to the current time"
                 });
             }
             catch (Exception ex)

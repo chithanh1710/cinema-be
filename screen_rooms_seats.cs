@@ -14,11 +14,13 @@ namespace CINEMA_BE
     
     public partial class screen_rooms_seats
     {
-        public int id_screen_room { get; set; }
+        public int id_showtime { get; set; }
         public int id_seat { get; set; }
         public string status { get; set; }
+        public Nullable<int> reservedBy { get; set; }
     
-        public virtual screen_rooms screen_rooms { get; set; }
         public virtual seat seat { get; set; }
+        public virtual show_times show_times { get; set; }
+        public virtual customer customer { get; set; }
     }
 }

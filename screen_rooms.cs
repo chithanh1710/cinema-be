@@ -17,7 +17,6 @@ namespace CINEMA_BE
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public screen_rooms()
         {
-            this.screen_rooms_seats = new HashSet<screen_rooms_seats>();
             this.show_times = new HashSet<show_times>();
         }
     
@@ -27,8 +26,6 @@ namespace CINEMA_BE
         public Nullable<int> amount_seats { get; set; }
     
         public virtual cinema cinema { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<screen_rooms_seats> screen_rooms_seats { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<show_times> show_times { get; set; }
     }

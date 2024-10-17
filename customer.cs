@@ -19,6 +19,7 @@ namespace CINEMA_BE
         {
             this.transactions = new HashSet<transaction>();
             this.voucher_uses = new HashSet<voucher_uses>();
+            this.screen_rooms_seats = new HashSet<screen_rooms_seats>();
         }
     
         public int id { get; set; }
@@ -31,5 +32,7 @@ namespace CINEMA_BE
         public virtual ICollection<transaction> transactions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<voucher_uses> voucher_uses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<screen_rooms_seats> screen_rooms_seats { get; set; }
     }
 }
