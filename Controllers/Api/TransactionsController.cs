@@ -61,18 +61,19 @@ namespace CINEMA_BE.Controllers.Api
                 ApiContext<transaction> transactions = new ApiContext<transaction>(db.transactions);
 
                 var data = transactions
-                    .Filter(t => t.id == id)
+                    .Filter(t => t.id_customer == id)
                     .SelectProperties(t => new
                     {
                         t.id,
-                        t.id_customer,
-                        t.id_ticket,
-                        t.id_staff,
                         t.total_amount,
                         t.time_transaction,
-                        t.type_transaction,
                         customer = new { t.customer.id, t.customer.name },
-                        ticket = new { t.ticket.id }
+                        ticket = new { t.ticket.id, t.ticket.seat.genre_seats, t.ticket.seat.number_of_column, t.ticket.seat.number_of_row },
+                        foods_drinks = t.transactions_foods_drinks.Select(tfr => new { tfr.quantity, tfr.foods_drinks.name }),
+                        movie = new { t.ticket.show_times.movy.name, t.ticket.show_times.movy.thumbnail, t.ticket.show_times.movy.old, t.ticket.show_times.movy.star },
+                        cinema = new {t.ticket.show_times.screen_rooms.cinema.name},
+                        sreenroom = new { t.ticket.show_times.screen_rooms.name },
+                        showtime = new {t.ticket.show_times.time_start}
                     }).ToList();
 
                 if (data == null)
