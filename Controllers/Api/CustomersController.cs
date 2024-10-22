@@ -127,13 +127,16 @@ namespace CINEMA_BE.Controllers.Api
         {
             try
             {
-                if (customer == null)
+                if (customer == null || string.IsNullOrWhiteSpace(customer.name) || string.IsNullOrWhiteSpace(customer.email))
                 {
-                    return BadRequest("Customer data cannot be null");
+                    return BadRequest("Customer data cannot be null or empty");
                 }
 
-                db.customers.Add(customer);
-                db.SaveChanges();
+                // SQL raw command to insert into the database
+                string insertCommand = string.Format("INSERT INTO customers (name, email) VALUES (N'{0}', N'{1}')", customer.name, customer.email);
+
+                // Execute the raw SQL command
+                db.Database.ExecuteSqlCommand(insertCommand);
 
                 return Ok(new
                 {
@@ -146,6 +149,8 @@ namespace CINEMA_BE.Controllers.Api
                 return BadRequest(ex.Message);
             }
         }
+
+
 
         // PUT: api/Customers/5
         public IHttpActionResult Put(int id, [FromBody] customer customer)

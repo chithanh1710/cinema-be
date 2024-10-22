@@ -18,7 +18,7 @@ namespace CINEMA_BE.Controllers
     {
         QL_RCP_Entities db = new QL_RCP_Entities();
         // GET api/movies
-        public IHttpActionResult Get(string q = "",int page = 1,int pageSize = 10,string type = "",string cinemaName = "",int? directorId = null,int? actorId = null)
+        public IHttpActionResult Get(string q = "",int page = 1,int pageSize = 10,string type = "",string cinemaName = "",int? directorId = null,int? actorId = null, int? genreId = null)
         {
             string typeQuery = type == "showing" ? "ĐANG CHIẾU" : type == "upcoming" ? "SẮP CHIẾU" : "";
             try
@@ -30,6 +30,7 @@ namespace CINEMA_BE.Controllers
                         && (string.IsNullOrEmpty(typeQuery) || m.type.Equals(typeQuery))
                         && (directorId == null || m.id_director == directorId)
                         && (actorId == null || m.actors.Select(a=>a.id).Any(a=>a == actorId))
+                        && (genreId == null || m.genres.Select(g=>g.id).Any(g=>g == genreId))
                         && (string.IsNullOrEmpty(cinemaName) || m.show_times.Any(s => s.screen_rooms.cinema.name.Equals(cinemaName))))
                     .SortBy(m => m.id, false)
                     .Pagination(page, pageSize)

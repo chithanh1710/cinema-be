@@ -156,19 +156,21 @@ namespace CINEMA_BE.Controllers.Api
         {
             try
             {
-                var transaction = db.transactions.FirstOrDefault(t => t.id == id);
-                if (transaction == null)
+                // Tìm tất cả các giao dịch của customerId
+                var transactions = db.transactions.Where(t => t.id_customer == id && t.time_transaction == null).ToList();
+
+                if (!transactions.Any())
                 {
                     return NotFound();
                 }
 
-                db.transactions.Remove(transaction);
+                db.transactions.RemoveRange(transactions);
                 db.SaveChanges();
 
                 return Ok(new
                 {
                     status = "success",
-                    message = "Transaction deleted successfully"
+                    message = "All transactions for the customer deleted successfully"
                 });
             }
             catch (Exception ex)
@@ -176,5 +178,7 @@ namespace CINEMA_BE.Controllers.Api
                 return BadRequest(ex.Message);
             }
         }
+
+
     }
 }
