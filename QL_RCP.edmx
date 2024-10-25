@@ -26,9 +26,9 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="city" Type="nvarchar" MaxLength="30" />
           <Property Name="address" Type="nvarchar" MaxLength="100" />
           <Property Name="amount_rooms" Type="int" />
-          <Property Name="city" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="customers">
           <Key>
@@ -53,10 +53,10 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="image_url" Type="nvarchar" MaxLength="255" />
           <Property Name="stock_quantity" Type="int" />
           <Property Name="price" Type="decimal" Precision="10" Scale="2" />
           <Property Name="category" Type="nvarchar" MaxLength="20" />
-          <Property Name="image_url" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="genres">
           <Key>
@@ -80,15 +80,15 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="100" />
           <Property Name="duration" Type="time" Precision="7" />
-          <Property Name="image" Type="nvarchar" MaxLength="300" />
-          <Property Name="id_director" Type="int" />
-          <Property Name="description" Type="nvarchar" MaxLength="500" />
-          <Property Name="release_date" Type="date" />
           <Property Name="star" Type="float" />
           <Property Name="old" Type="int" />
           <Property Name="type" Type="nvarchar" MaxLength="20" />
+          <Property Name="image" Type="nvarchar" MaxLength="300" />
+          <Property Name="thumbnail" Type="nvarchar" MaxLength="300" />
           <Property Name="trailer" Type="nvarchar" MaxLength="300" />
-          <Property Name="thumbnail" Type="nvarchar" MaxLength="30" />
+          <Property Name="id_director" Type="int" />
+          <Property Name="description" Type="nvarchar" MaxLength="500" />
+          <Property Name="release_date" Type="date" />
         </EntityType>
         <EntityType Name="problems">
           <Key>
@@ -119,8 +119,8 @@
           </Key>
           <Property Name="id_showtime" Type="int" Nullable="false" />
           <Property Name="id_seat" Type="int" Nullable="false" />
-          <Property Name="status" Type="nvarchar" MaxLength="30" />
           <Property Name="reservedBy" Type="int" />
+          <Property Name="status" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="seats">
           <Key>
@@ -210,6 +210,7 @@
           <Property Name="rank" Type="nvarchar" MaxLength="20" />
           <Property Name="date_start" Type="date" />
           <Property Name="date_end" Type="date" />
+          <Property Name="discount_percentage" Type="decimal" Precision="5" Scale="2" />
         </EntityType>
         <Association Name="fk_actors_movies_actors">
           <End Role="actors" Type="Self.actors" Multiplicity="1" />
@@ -308,9 +309,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_screen_rooms_seats_seats">
-          <End Role="seats" Type="Self.seats" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="seats" Type="Self.seats" Multiplicity="1" />
           <End Role="screen_rooms_seats" Type="Self.screen_rooms_seats" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="seats">
@@ -334,9 +333,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_show_times_movies">
-          <End Role="movies" Type="Self.movies" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="movies" Type="Self.movies" Multiplicity="0..1" />
           <End Role="show_times" Type="Self.show_times" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="movies">
@@ -360,9 +357,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_tickets_seats">
-          <End Role="seats" Type="Self.seats" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="seats" Type="Self.seats" Multiplicity="0..1" />
           <End Role="tickets" Type="Self.tickets" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="seats">
@@ -398,7 +393,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_transactions_foods_drinks_foods_drinks">
-          <End Role="foods_drinks" Type="Self.foods_drinks" Multiplicity="1" />
+          <End Role="foods_drinks" Type="Self.foods_drinks" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="transactions_foods_drinks" Type="Self.transactions_foods_drinks" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="foods_drinks">
@@ -410,7 +407,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_transactions_foods_drinks_transactions">
-          <End Role="transactions" Type="Self.transactions" Multiplicity="1" />
+          <End Role="transactions" Type="Self.transactions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="transactions_foods_drinks" Type="Self.transactions_foods_drinks" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="transactions">
@@ -898,7 +897,7 @@
           <Property Name="old" Type="Int32" />
           <Property Name="type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="trailer" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="thumbnail" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="thumbnail" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="problem">
           <Key>
@@ -1012,6 +1011,7 @@
           <Property Name="date_start" Type="DateTime" Precision="0" />
           <Property Name="date_end" Type="DateTime" Precision="0" />
           <NavigationProperty Name="voucher_uses" Relationship="QuanLy_RapChieuPhimModel.fk_voucher_uses_voucher" FromRole="voucher" ToRole="voucher_uses" />
+          <Property Name="discount_percentage" Type="Decimal" Precision="5" Scale="2" />
         </EntityType>
         <Association Name="fk_screen_rooms">
           <End Type="QuanLy_RapChieuPhimModel.cinema" Role="cinema" Multiplicity="0..1" />
@@ -1521,6 +1521,7 @@
           <EntitySetMapping Name="vouchers">
             <EntityTypeMapping TypeName="QuanLy_RapChieuPhimModel.voucher">
               <MappingFragment StoreEntitySet="vouchers">
+                <ScalarProperty Name="discount_percentage" ColumnName="discount_percentage" />
                 <ScalarProperty Name="date_end" ColumnName="date_end" />
                 <ScalarProperty Name="date_start" ColumnName="date_start" />
                 <ScalarProperty Name="rank" ColumnName="rank" />

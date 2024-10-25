@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Net;
@@ -179,9 +180,29 @@ namespace CINEMA_BE.Controllers
                     message = "Movie added successfully"
                 });
             }
+            catch (DbEntityValidationException dbEx)
+            {
+                var validationErrors = dbEx.EntityValidationErrors.SelectMany(e => e.ValidationErrors)
+                    .Select(e => new
+                    {
+                        PropertyName = e.PropertyName,
+                        ErrorMessage = e.ErrorMessage
+                    }).ToList();
+
+                return BadRequest(new
+                {
+                    status = "error",
+                    message = "Entity validation failed",
+                    errors = string.Join(", ", validationErrors.Select(e => $"{e.PropertyName}: {e.ErrorMessage}"))
+                }.ToString());
+            }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new
+                {
+                    status = "error",
+                    message = $"An error occurred: {ex.Message}"
+                }.ToString());
             }
         }
 

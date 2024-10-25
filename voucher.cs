@@ -26,6 +26,7 @@ namespace CINEMA_BE
         public string rank { get; set; }
         public Nullable<System.DateTime> date_start { get; set; }
         public Nullable<System.DateTime> date_end { get; set; }
+        public Nullable<decimal> discount_percentage { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<voucher_uses> voucher_uses { get; set; }

@@ -12,34 +12,30 @@ namespace CINEMA_BE.Controllers.Api
     {
         private QL_RCP_Entities db = new QL_RCP_Entities();
         // GET: api/ShowTimes
-        public IHttpActionResult Get(string q = "", int page = 1, int pageSize = 10)
+        public IHttpActionResult Get()
         {
             try
             {
                 ApiContext<show_times> showTimes = new ApiContext<show_times>(db.show_times);
 
+                // đổi id thành name
                 var data = showTimes
-                                .Filter(s => s.screen_rooms.name.Contains(q) || s.movy.name.Contains(q))
-                                .SortBy(s => s.time_start)
-                                .Pagination(page,pageSize)
                                 .SelectProperties(s => new
                                 {
                                     s.id,
                                     s.time_start,
                                     s.time_end,
-                                    s.id_movie,
                                     movie = new { s.movy.id, s.movy.name },
-                                    screen_room = new { s.screen_rooms.id, s.screen_rooms.name }
+                                    screen_room = new { s.screen_rooms.id, s.screen_rooms.name },
+                                    cinema = new { s.screen_rooms.cinema.id, s.screen_rooms.cinema.name }
                                 })
                                 .ToList();
 
-                var totalItems = showTimes.TotalItem();
+                var totalItems = data.Count;
 
                 return Ok(new
                 {
                     status = "success",
-                    currentPage = page,
-                    pageSize,
                     totalItems,
                     data
                 });
