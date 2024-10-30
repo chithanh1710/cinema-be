@@ -82,8 +82,15 @@ namespace CINEMA_BE.Controllers.Api
             }
         }
 
+        public class Showtimec
+        {
+            public int id_movie { get; set; }
+            public int id_screen_room { get; set; }
+            public DateTime time_start { get; set; }
+        }
+
         // POST: api/ShowTimes
-        public IHttpActionResult Post([FromBody] show_times showTime)
+        public IHttpActionResult Post([FromBody] Showtimec showTime)
         {
             try
             {
@@ -101,9 +108,10 @@ namespace CINEMA_BE.Controllers.Api
                     return BadRequest("Movie or Screen Room not found");
                 }
 
-                // Thêm show_time vào cơ sở dữ liệu
-                db.show_times.Add(showTime);
-                db.SaveChanges();
+                string timeStart = showTime.time_start.ToString("yyyy-MM-dd HH:mm:ss");
+                string sql = string.Format("INSERT INTO show_times(id_movie, id_screen_room, time_start) VALUES({0}, {1}, '{2}')", showTime.id_movie, showTime.id_screen_room, timeStart);
+
+                db.Database.ExecuteSqlCommand(sql);
 
                 return Ok(new
                 {
@@ -116,9 +124,9 @@ namespace CINEMA_BE.Controllers.Api
                 return BadRequest(ex.Message);
             }
         }
-
+        
         // PUT: api/ShowTimes/5
-        public IHttpActionResult Put(int id, [FromBody] show_times showTime)
+        public IHttpActionResult Put(int id, [FromBody] Showtimec showTime)
         {
             try
             {
@@ -127,19 +135,27 @@ namespace CINEMA_BE.Controllers.Api
                     return BadRequest("Show time data cannot be null");
                 }
 
-                var existingShowTime = db.show_times.FirstOrDefault(s => s.id == id);
-                if (existingShowTime == null)
+                // Kiểm tra movie và screen_room tồn tại
+                var movieExists = db.movies.Any(m => m.id == showTime.id_movie);
+                var screenRoomExists = db.screen_rooms.Any(sr => sr.id == showTime.id_screen_room);
+
+                if (!movieExists || !screenRoomExists)
                 {
-                    return NotFound();
+                    return BadRequest("Movie or Screen Room does not exist.");
                 }
 
-                // Cập nhật thông tin show_time
-                existingShowTime.id_movie = showTime.id_movie;
-                existingShowTime.id_screen_room = showTime.id_screen_room;
-                existingShowTime.time_start = showTime.time_start;
-                existingShowTime.time_end = showTime.time_end;
+                // Kiểm tra xem suất chiếu có tồn tại không
+                var existingShowTime = db.show_times.Find(id);
+                if (existingShowTime == null)
+                {
+                    return NotFound(); // Trả về lỗi nếu suất chiếu không tìm thấy
+                }
 
-                db.SaveChanges();
+                string timeStart = showTime.time_start.ToString("yyyy-MM-dd HH:mm:ss");
+                string sql = string.Format("UPDATE show_times SET id_movie = {0}, id_screen_room = {1}, time_start = '{2}' WHERE id = {3}",
+                    showTime.id_movie, showTime.id_screen_room, timeStart, id);
+
+                db.Database.ExecuteSqlCommand(sql);
 
                 return Ok(new
                 {
@@ -152,6 +168,7 @@ namespace CINEMA_BE.Controllers.Api
                 return BadRequest(ex.Message);
             }
         }
+
 
         // DELETE: api/ShowTimes/5
         public IHttpActionResult Delete(int id)

@@ -224,5 +224,58 @@ namespace CINEMA_BE
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetTransactionDetailsByCustomerId2_Result>("[QL_RCP_Entities].[GetTransactionDetailsByCustomerId2](@CustomerId)", customerIdParameter);
         }
+    
+        [DbFunction("QL_RCP_Entities", "GetMonthlyRevenue")]
+        public virtual IQueryable<GetMonthlyRevenue_Result> GetMonthlyRevenue()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetMonthlyRevenue_Result>("[QL_RCP_Entities].[GetMonthlyRevenue]()");
+        }
+    
+        [DbFunction("QL_RCP_Entities", "GetCurrentMonthRevenueAndGrowth")]
+        public virtual IQueryable<GetCurrentMonthRevenueAndGrowth_Result> GetCurrentMonthRevenueAndGrowth()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetCurrentMonthRevenueAndGrowth_Result>("[QL_RCP_Entities].[GetCurrentMonthRevenueAndGrowth]()");
+        }
+    
+        [DbFunction("QL_RCP_Entities", "GetCurrentMonthRevenueGrowth")]
+        public virtual IQueryable<GetCurrentMonthRevenueGrowth_Result> GetCurrentMonthRevenueGrowth()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetCurrentMonthRevenueGrowth_Result>("[QL_RCP_Entities].[GetCurrentMonthRevenueGrowth]()");
+        }
+    
+        [DbFunction("QL_RCP_Entities", "GetCurrentAndPreviousDayRevenue")]
+        public virtual IQueryable<GetCurrentAndPreviousDayRevenue_Result> GetCurrentAndPreviousDayRevenue()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetCurrentAndPreviousDayRevenue_Result>("[QL_RCP_Entities].[GetCurrentAndPreviousDayRevenue]()");
+        }
+    
+        [DbFunction("QL_RCP_Entities", "GetTop5CustomersBySpending")]
+        public virtual IQueryable<GetTop5CustomersBySpending_Result> GetTop5CustomersBySpending()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetTop5CustomersBySpending_Result>("[QL_RCP_Entities].[GetTop5CustomersBySpending]()");
+        }
+    
+        [DbFunction("QL_RCP_Entities", "GetTop5Customers")]
+        public virtual IQueryable<GetTop5Customers_Result> GetTop5Customers()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetTop5Customers_Result>("[QL_RCP_Entities].[GetTop5Customers]()");
+        }
+    
+        public virtual ObjectResult<Get3Month_Result> Get3Month()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get3Month_Result>("Get3Month");
+        }
+    
+        [DbFunction("QL_RCP_Entities", "GetCurrentAndPreviousDayTicketsSold")]
+        public virtual IQueryable<GetCurrentAndPreviousDayTicketsSold_Result> GetCurrentAndPreviousDayTicketsSold()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetCurrentAndPreviousDayTicketsSold_Result>("[QL_RCP_Entities].[GetCurrentAndPreviousDayTicketsSold]()");
+        }
+    
+        [DbFunction("QL_RCP_Entities", "GetCurrentAndPreviousDayFoodDrinkSales")]
+        public virtual IQueryable<GetCurrentAndPreviousDayFoodDrinkSales_Result> GetCurrentAndPreviousDayFoodDrinkSales()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetCurrentAndPreviousDayFoodDrinkSales_Result>("[QL_RCP_Entities].[GetCurrentAndPreviousDayFoodDrinkSales]()");
+        }
     }
 }

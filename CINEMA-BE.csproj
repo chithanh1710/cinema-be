@@ -26,6 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -83,8 +84,8 @@
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Extensions.FileProviders.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.FileProviders.Abstractions.9.0.0-rc.2.24473.5\lib\net462\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Extensions.Logging.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
@@ -92,12 +93,13 @@
     <Reference Include="Microsoft.Extensions.Options, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Extensions.Options.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Primitives.9.0.0-rc.2.24473.5\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Net.Http.Headers.2.2.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
     </Reference>
+    <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.Bson.1.0.2\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
     </Reference>
@@ -120,8 +122,8 @@
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Security" />
     <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -248,8 +250,15 @@
     <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetAvailableMoviesController.cs" />
     <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetAvailableShowtimesController.cs" />
     <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetCinemasByMovieController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetCurrentAndPreviousDayFoodDrinkSalesController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetCurrentAndPreviousDayRevenueController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetCurrentAndPreviousDayTicketsSoldController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetCurrentMonthRevenueAndGrowthController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetMonthlyRevenueController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetTop5CustomersBySpendingController.cs" />
     <Compile Include="Controllers\Api\StoredProceduresAndFunctions\Func\GetTransactionDetailsByCustomerIdController.cs" />
     <Compile Include="Controllers\Api\StoredProceduresAndFunctions\SP\AddFoodDrinkTransactionController.cs" />
+    <Compile Include="Controllers\Api\StoredProceduresAndFunctions\SP\Get3MonthController.cs" />
     <Compile Include="Controllers\Api\StoredProceduresAndFunctions\SP\GetMoviesByTypeController.cs" />
     <Compile Include="Controllers\Api\StoredProceduresAndFunctions\SP\GetMovieShowtimesController.cs" />
     <Compile Include="Controllers\Api\ProblemsController.cs" />
@@ -274,6 +283,9 @@
     <Compile Include="genre.cs">
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
+    <Compile Include="Get3Month_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
     <Compile Include="GetAvailableMovies_Result.cs">
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
@@ -286,6 +298,24 @@
     <Compile Include="GetCinemasByMovie_Result.cs">
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetCurrentAndPreviousDayFoodDrinkSales_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetCurrentAndPreviousDayRevenue_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetCurrentAndPreviousDayTicketsSold_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetCurrentMonthRevenueAndGrowth_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetCurrentMonthRevenueGrowth_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetMonthlyRevenue_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
     <Compile Include="GetMoviesByType_Result.cs">
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
@@ -293,6 +323,12 @@
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
     <Compile Include="GetMovieShowtimes_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetTop5CustomersBySpending_Result.cs">
+      <DependentUpon>QL_RCP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetTop5Customers_Result.cs">
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
     <Compile Include="GetTransactionDetailsByCustomerId1_Result.cs">

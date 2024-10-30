@@ -177,6 +177,7 @@ namespace CINEMA_BE.Controllers
                 return Ok(new
                 {
                     status = "success",
+                    movieId = movie.id,
                     message = "Movie added successfully"
                 });
             }
@@ -230,6 +231,8 @@ namespace CINEMA_BE.Controllers
                 existingMovie.name = movie.name;
                 existingMovie.duration = movie.duration;
                 existingMovie.image = movie.image;
+                existingMovie.thumbnail = movie.thumbnail;
+                existingMovie.type = movie.type;
                 existingMovie.description = movie.description;
                 existingMovie.release_date = movie.release_date;
                 existingMovie.id_director = movie.id_director;

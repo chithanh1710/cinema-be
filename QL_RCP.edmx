@@ -475,6 +475,7 @@
           <Parameter Name="FoodDrinkId" Type="int" Mode="In" />
           <Parameter Name="Quantity" Type="int" Mode="In" />
         </Function>
+        <Function Name="Get3Month" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetAvailableDates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="movieId" Type="int" Mode="In" />
           <Parameter Name="cinemaId" Type="int" Mode="In" />
@@ -523,11 +524,94 @@
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="GetCurrentAndPreviousDayFoodDrinkSales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="day" Type="int" />
+                <Property Name="month" Type="int" />
+                <Property Name="year" Type="int" />
+                <Property Name="total_food_drink_sold" Type="int" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetCurrentAndPreviousDayRevenue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="day" Type="int" />
+                <Property Name="month" Type="int" />
+                <Property Name="year" Type="int" />
+                <Property Name="total_revenue" Type="decimal" Precision="38" Scale="2" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetCurrentAndPreviousDayTicketsSold" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="day" Type="int" />
+                <Property Name="month" Type="int" />
+                <Property Name="year" Type="int" />
+                <Property Name="total_tickets_sold" Type="int" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetCurrentMonthRevenueGrowth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="month" Type="int" />
+                <Property Name="year" Type="int" />
+                <Property Name="total_revenue" Type="decimal" Precision="38" Scale="2" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetMonthlyRevenue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="month" Type="int" />
+                <Property Name="total_amount" Type="decimal" Precision="38" Scale="2" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="GetMoviesByType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetMovieShowtimes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="movieId" Type="int" Mode="In" />
           <Parameter Name="cityName" Type="nvarchar" Mode="In" />
           <Parameter Name="cinemaName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetTop5Customers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="customer_id" Type="int" Nullable="false" />
+                <Property Name="customer_email" Type="nvarchar" MaxLength="50" />
+                <Property Name="customer_rank" Type="nvarchar" MaxLength="20" />
+                <Property Name="customer_name" Type="nvarchar" MaxLength="50" />
+                <Property Name="total_spent" Type="decimal" Precision="38" Scale="2" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetTop5CustomersBySpending" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="customer_id" Type="int" Nullable="false" />
+                <Property Name="customer_email" Type="nvarchar" MaxLength="50" />
+                <Property Name="customer_rank" Type="nvarchar" MaxLength="20" />
+                <Property Name="customer_name" Type="nvarchar" MaxLength="50" />
+                <Property Name="total_spent" Type="decimal" Precision="38" Scale="2" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
         </Function>
         <Function Name="GetTransactionDetailsByCustomerId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CustomerId" Type="int" Mode="In" />
@@ -841,6 +925,15 @@
           <FunctionImport Name="GetTransactionDetailsByCustomerId2" IsComposable="true" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetTransactionDetailsByCustomerId2_Result)">
           <Parameter Name="CustomerId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="GetMonthlyRevenue" IsComposable="true" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetMonthlyRevenue_Result)" />
+          <FunctionImport Name="GetCurrentMonthRevenueAndGrowth" IsComposable="true" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetCurrentMonthRevenueAndGrowth_Result)" />
+          <FunctionImport Name="GetCurrentMonthRevenueGrowth" IsComposable="true" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetCurrentMonthRevenueGrowth_Result)" />
+          <FunctionImport Name="GetCurrentAndPreviousDayRevenue" IsComposable="true" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetCurrentAndPreviousDayRevenue_Result)" />
+          <FunctionImport Name="GetTop5CustomersBySpending" IsComposable="true" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetTop5CustomersBySpending_Result)" />
+          <FunctionImport Name="GetTop5Customers" IsComposable="true" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetTop5Customers_Result)" />
+          <FunctionImport Name="Get3Month" ReturnType="Collection(QuanLy_RapChieuPhimModel.Get3Month_Result)" />
+          <FunctionImport Name="GetCurrentAndPreviousDayTicketsSold" IsComposable="true" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetCurrentAndPreviousDayTicketsSold_Result)" />
+          <FunctionImport Name="GetCurrentAndPreviousDayFoodDrinkSales" IsComposable="true" ReturnType="Collection(QuanLy_RapChieuPhimModel.GetCurrentAndPreviousDayFoodDrinkSales_Result)" />
         </EntityContainer>
         <EntityType Name="cinema">
           <Key>
@@ -1347,6 +1440,54 @@
           <Property Type="Decimal" Name="FoodDrinkPrice" Nullable="true" Precision="10" Scale="2" />
           <Property Type="DateTime" Name="TimeTransaction" Nullable="true" Precision="23" />
         </ComplexType>
+        <ComplexType Name="GetMonthlyRevenue_Result">
+          <Property Type="Int32" Name="month" Nullable="true" />
+          <Property Type="Decimal" Name="total_amount" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="GetCurrentMonthRevenueAndGrowth_Result">
+          <Property Type="Decimal" Name="current_month_revenue" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="previous_month_revenue" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="growth_percentage" Nullable="true" Precision="38" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="GetCurrentMonthRevenueGrowth_Result">
+          <Property Type="Int32" Name="month" Nullable="true" />
+          <Property Type="Int32" Name="year" Nullable="true" />
+          <Property Type="Decimal" Name="total_revenue" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="GetCurrentAndPreviousDayRevenue_Result">
+          <Property Type="Int32" Name="day" Nullable="true" />
+          <Property Type="Int32" Name="month" Nullable="true" />
+          <Property Type="Int32" Name="year" Nullable="true" />
+          <Property Type="Decimal" Name="total_revenue" Nullable="false" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="GetTop5CustomersBySpending_Result">
+          <Property Type="Int32" Name="customer_id" Nullable="false" />
+          <Property Type="String" Name="customer_name" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="total_spent" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="GetTop5Customers_Result">
+          <Property Type="Int32" Name="customer_id" Nullable="false" />
+          <Property Type="String" Name="customer_email" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="customer_rank" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="customer_name" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="total_spent" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="Get3Month_Result">
+          <Property Type="DateTime" Name="transaction_date" Nullable="true" />
+          <Property Type="Decimal" Name="total_revenue" Nullable="false" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="GetCurrentAndPreviousDayTicketsSold_Result">
+          <Property Type="Int32" Name="day" Nullable="true" />
+          <Property Type="Int32" Name="month" Nullable="true" />
+          <Property Type="Int32" Name="year" Nullable="true" />
+          <Property Type="Int32" Name="total_tickets_sold" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetCurrentAndPreviousDayFoodDrinkSales_Result">
+          <Property Type="Int32" Name="day" Nullable="true" />
+          <Property Type="Int32" Name="month" Nullable="true" />
+          <Property Type="Int32" Name="year" Nullable="true" />
+          <Property Type="Int32" Name="total_food_drink_sold" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1653,6 +1794,81 @@
                 <ScalarProperty Name="FoodDrinkName" ColumnName="FoodDrinkName" />
                 <ScalarProperty Name="FoodDrinkPrice" ColumnName="FoodDrinkPrice" />
                 <ScalarProperty Name="TimeTransaction" ColumnName="TimeTransaction" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetMonthlyRevenue" FunctionName="QuanLy_RapChieuPhimModel.Store.GetMonthlyRevenue">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLy_RapChieuPhimModel.GetMonthlyRevenue_Result">
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="total_amount" ColumnName="total_amount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCurrentMonthRevenueGrowth" FunctionName="QuanLy_RapChieuPhimModel.Store.GetCurrentMonthRevenueGrowth">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLy_RapChieuPhimModel.GetCurrentMonthRevenueGrowth_Result">
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="total_revenue" ColumnName="total_revenue" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCurrentAndPreviousDayRevenue" FunctionName="QuanLy_RapChieuPhimModel.Store.GetCurrentAndPreviousDayRevenue">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLy_RapChieuPhimModel.GetCurrentAndPreviousDayRevenue_Result">
+                <ScalarProperty Name="day" ColumnName="day" />
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="total_revenue" ColumnName="total_revenue" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTop5CustomersBySpending" FunctionName="QuanLy_RapChieuPhimModel.Store.GetTop5CustomersBySpending">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLy_RapChieuPhimModel.GetTop5CustomersBySpending_Result">
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="total_spent" ColumnName="total_spent" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTop5Customers" FunctionName="QuanLy_RapChieuPhimModel.Store.GetTop5Customers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLy_RapChieuPhimModel.GetTop5Customers_Result">
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="customer_email" ColumnName="customer_email" />
+                <ScalarProperty Name="customer_rank" ColumnName="customer_rank" />
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="total_spent" ColumnName="total_spent" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get3Month" FunctionName="QuanLy_RapChieuPhimModel.Store.Get3Month">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLy_RapChieuPhimModel.Get3Month_Result">
+                <ScalarProperty Name="transaction_date" ColumnName="transaction_date" />
+                <ScalarProperty Name="total_revenue" ColumnName="total_revenue" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCurrentAndPreviousDayTicketsSold" FunctionName="QuanLy_RapChieuPhimModel.Store.GetCurrentAndPreviousDayTicketsSold">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLy_RapChieuPhimModel.GetCurrentAndPreviousDayTicketsSold_Result">
+                <ScalarProperty Name="day" ColumnName="day" />
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="total_tickets_sold" ColumnName="total_tickets_sold" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCurrentAndPreviousDayFoodDrinkSales" FunctionName="QuanLy_RapChieuPhimModel.Store.GetCurrentAndPreviousDayFoodDrinkSales">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLy_RapChieuPhimModel.GetCurrentAndPreviousDayFoodDrinkSales_Result">
+                <ScalarProperty Name="day" ColumnName="day" />
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="total_food_drink_sold" ColumnName="total_food_drink_sold" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

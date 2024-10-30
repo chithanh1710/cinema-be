@@ -44,6 +44,38 @@ namespace CINEMA_BE.Controllers.Api
             }
         }
 
+        public IHttpActionResult Get(int id)
+        {
+            try
+            {
+                ApiContext<foods_drinks> fooddrinkContext = new ApiContext<foods_drinks>(db.foods_drinks);
+                var data = fooddrinkContext.Filter(f=>f.id == id).SelectProperties(f => new
+                {
+
+                    f.id,
+                    f.name,
+                    f.price,
+                    f.stock_quantity,
+                    f.image_url,
+                    f.category,
+                }).ToList();
+
+
+                int totalItem = fooddrinkContext.TotalItem();
+
+                return Ok(new
+                {
+                    status = "success",
+                    totalItem,
+                    data
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         // POST: api/FoodsDrinks
         public IHttpActionResult Post([FromBody] foods_drinks foods_Drinks)
         {
@@ -88,6 +120,8 @@ namespace CINEMA_BE.Controllers.Api
                 existingfoods_Drinks.name = foods_Drinks.name;
                 existingfoods_Drinks.price = foods_Drinks.price;
                 existingfoods_Drinks.category = foods_Drinks.category;
+                existingfoods_Drinks.stock_quantity = foods_Drinks.stock_quantity;
+                existingfoods_Drinks.image_url = foods_Drinks.image_url;
 
                 db.SaveChanges();
 
