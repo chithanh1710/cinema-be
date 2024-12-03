@@ -237,6 +237,7 @@
       <DependentUpon>QL_RCP.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\Api\ActorsController.cs" />
+    <Compile Include="Controllers\Api\BackupController.cs" />
     <Compile Include="Controllers\Api\CinemasController.cs" />
     <Compile Include="Controllers\Api\CustomersController.cs" />
     <Compile Include="Controllers\Api\DirectorsController.cs" />

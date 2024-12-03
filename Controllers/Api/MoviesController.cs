@@ -265,23 +265,23 @@ namespace CINEMA_BE.Controllers
                 existingMovie.actors.Clear(); // Xóa các liên kết hiện tại
                 existingMovie.actors = validActors; // Gán danh sách mới
 
-                // Xử lý show_times
-                var validShowTimes = new List<show_times>();
-                var showTimesCopy = movie.show_times.ToList();
+                //// Xử lý show_times
+                //var validShowTimes = new List<show_times>();
+                //var showTimesCopy = movie.show_times.ToList();
 
-                foreach (var showTime in showTimesCopy)
-                {
-                    var newShowTime = new show_times
-                    {
-                        id_screen_room = showTime.id_screen_room,
-                        time_start = showTime.time_start,
-                        time_end = showTime.time_end
-                    };
+                //foreach (var showTime in showTimesCopy)
+                //{
+                //    var newShowTime = new show_times
+                //    {
+                //        id_screen_room = showTime.id_screen_room,
+                //        time_start = showTime.time_start,
+                //        time_end = showTime.time_end
+                //    };
 
-                    validShowTimes.Add(newShowTime);
-                }
-                existingMovie.show_times.Clear(); // Xóa các liên kết hiện tại
-                existingMovie.show_times = validShowTimes; // Gán danh sách mới
+                //    validShowTimes.Add(newShowTime);
+                //}
+                //existingMovie.show_times.Clear(); // Xóa các liên kết hiện tại
+                //existingMovie.show_times = validShowTimes; // Gán danh sách mới
 
                 // Lưu thay đổi
                 db.SaveChanges();
